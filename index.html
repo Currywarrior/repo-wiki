@@ -1,0 +1,2249 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R.E.P.O. 機器人百科 — 你不看會死的攻略</title>
+<link href="https://fonts.googleapis.com/css2?family=Creepster&family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080808;
+  --bg2: #111111;
+  --bg3: #1a1a1a;
+  --card: #141414;
+  --border: #2a2a2a;
+  --red: #cc2200;
+  --red-glow: #ff3300;
+  --orange: #ff6600;
+  --yellow: #ffcc00;
+  --green: #00cc66;
+  --blue: #0099ff;
+  --purple: #9900cc;
+  --text: #e8e8e8;
+  --text-dim: #888888;
+  --text-dark: #444444;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans TC', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===== 頂部 ===== */
+header {
+  background: linear-gradient(180deg, #0d0000 0%, #080808 100%);
+  border-bottom: 2px solid var(--red);
+  padding: 24px 40px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 40px rgba(204,34,0,0.3);
+}
+
+.header-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.site-title {
+  font-family: 'Creepster', cursive;
+  font-size: 2.4rem;
+  color: var(--red-glow);
+  text-shadow: 0 0 20px rgba(255,51,0,0.8), 0 0 40px rgba(255,51,0,0.4);
+  letter-spacing: 3px;
+  animation: flicker 8s infinite;
+  white-space: nowrap;
+}
+
+.site-sub {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+@keyframes flicker {
+  0%,95%,100% { opacity: 1; text-shadow: 0 0 20px rgba(255,51,0,0.8), 0 0 40px rgba(255,51,0,0.4); }
+  96% { opacity: 0.4; text-shadow: none; }
+  97% { opacity: 1; text-shadow: 0 0 20px rgba(255,51,0,0.8); }
+  98% { opacity: 0.6; }
+}
+
+/* ===== 搜尋框 ===== */
+.search-wrap {
+  flex: 1;
+  min-width: 200px;
+  max-width: 360px;
+}
+
+.search-input {
+  width: 100%;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 16px;
+  color: var(--text);
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search-input:focus {
+  border-color: var(--red);
+  box-shadow: 0 0 12px rgba(204,34,0,0.3);
+}
+
+.search-input::placeholder { color: var(--text-dark); }
+
+/* ===== 主體佈局 ===== */
+.layout {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 0;
+  min-height: calc(100vh - 100px);
+}
+
+/* ===== 側邊欄 ===== */
+aside {
+  border-right: 1px solid var(--border);
+  padding: 28px 0;
+  position: sticky;
+  top: 90px;
+  height: calc(100vh - 90px);
+  overflow-y: auto;
+}
+
+aside::-webkit-scrollbar { width: 4px; }
+aside::-webkit-scrollbar-track { background: transparent; }
+aside::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.nav-section { margin-bottom: 4px; }
+
+.nav-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-dark);
+  padding: 14px 20px 6px;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  border-left: 3px solid transparent;
+  color: var(--text-dim);
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+}
+
+.nav-btn:hover {
+  background: rgba(255,255,255,0.04);
+  color: var(--text);
+}
+
+.nav-btn.active {
+  border-left-color: var(--red);
+  background: rgba(204,34,0,0.1);
+  color: var(--text);
+  font-weight: 700;
+}
+
+.nav-btn .icon { font-size: 1.1rem; min-width: 20px; }
+
+.nav-count {
+  margin-left: auto;
+  font-size: 0.7rem;
+  background: var(--bg3);
+  border-radius: 10px;
+  padding: 1px 7px;
+  color: var(--text-dim);
+}
+
+.nav-btn.active .nav-count {
+  background: rgba(204,34,0,0.2);
+  color: var(--red-glow);
+}
+
+/* 危險等級篩選 */
+.filter-row {
+  display: flex;
+  gap: 6px;
+  padding: 8px 20px;
+  flex-wrap: wrap;
+}
+
+.filter-chip {
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s;
+  background: var(--bg3);
+  color: var(--text-dim);
+}
+
+.filter-chip:hover { opacity: 0.8; }
+.filter-chip.active-chip { color: #000; }
+.filter-chip[data-tier="1"] { border-color: var(--green); }
+.filter-chip[data-tier="2"] { border-color: var(--yellow); }
+.filter-chip[data-tier="3"] { border-color: var(--red); }
+.filter-chip[data-tier="1"].active-chip { background: var(--green); }
+.filter-chip[data-tier="2"].active-chip { background: var(--yellow); }
+.filter-chip[data-tier="3"].active-chip { background: var(--red); color: #fff; }
+.filter-chip[data-tier="all"].active-chip { background: var(--text); color: #000; }
+
+/* ===== 主內容 ===== */
+main {
+  padding: 28px 32px;
+}
+
+.section { display: none; }
+.section.visible { display: block; }
+
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-title {
+  font-family: 'Creepster', cursive;
+  font-size: 2rem;
+  letter-spacing: 2px;
+}
+
+.section-desc {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+/* ===== 卡片格線 ===== */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+/* ===== 怪物卡片 ===== */
+.monster-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.monster-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--tier-color, var(--red)), transparent);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.monster-card:hover {
+  border-color: var(--tier-color, var(--red));
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5), 0 0 0 1px var(--tier-color, var(--red));
+  transform: translateY(-2px);
+}
+
+.monster-card:hover::before { opacity: 1; }
+
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.card-img-wrap {
+  width: 100%;
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.22);
+  border-radius: 8px;
+  margin-bottom: 14px;
+  overflow: hidden;
+}
+
+.card-img-wrap img {
+  max-height: 118px;
+  max-width: 82%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 14px rgba(0,0,0,0.75));
+  transition: transform 0.3s ease;
+}
+
+.monster-card:hover .card-img-wrap img {
+  transform: scale(1.07) translateY(-3px);
+}
+
+.card-emoji-fb {
+  font-size: 3rem;
+}
+
+.card-name-block { flex: 1; }
+
+.card-name-en {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.card-name-zh {
+  font-size: 1.25rem;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.tier-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.tier-1 { background: rgba(0,204,102,0.15); color: var(--green); border: 1px solid var(--green); }
+.tier-2 { background: rgba(255,204,0,0.15); color: var(--yellow); border: 1px solid var(--yellow); }
+.tier-3 { background: rgba(204,34,0,0.2); color: var(--red-glow); border: 1px solid var(--red); }
+
+.card-desc {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.tag {
+  font-size: 0.68rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--bg3);
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+}
+
+.tag-danger { border-color: rgba(204,34,0,0.5); color: #ff6655; background: rgba(204,34,0,0.1); }
+.tag-tip { border-color: rgba(0,153,255,0.5); color: #55aaff; background: rgba(0,153,255,0.1); }
+
+/* 展開詳情 */
+.card-detail {
+  display: none;
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+  margin-top: 4px;
+  animation: fadeIn 0.2s ease;
+}
+
+.monster-card.expanded .card-detail { display: block; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.detail-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 0.83rem;
+}
+
+.detail-label {
+  min-width: 70px;
+  font-weight: 700;
+  color: var(--text-dim);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding-top: 1px;
+}
+
+.detail-val { color: var(--text); line-height: 1.55; }
+
+.fun-fact {
+  background: rgba(255,102,0,0.08);
+  border: 1px solid rgba(255,102,0,0.3);
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 0.82rem;
+  color: var(--orange);
+  line-height: 1.5;
+  margin-top: 10px;
+}
+
+.fun-fact::before { content: "小知識  "; font-weight: 700; }
+
+/* ===== 物品卡片 ===== */
+.item-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px;
+  transition: all 0.2s;
+}
+
+.item-card:hover {
+  border-color: var(--orange);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+}
+
+.item-img-wrap {
+  width: 100%;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.2);
+  border-radius: 7px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+.item-img-wrap img {
+  max-height: 78px;
+  max-width: 80%;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 10px rgba(0,0,0,0.7));
+  transition: transform 0.3s ease;
+}
+
+.item-card:hover .item-img-wrap img {
+  transform: scale(1.08);
+}
+
+.item-emoji-fb { font-size: 2.2rem; }
+
+.item-category-badge {
+  font-size: 0.62rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+.cat-weapon { background: rgba(204,34,0,0.15); color: #ff5533; border: 1px solid rgba(204,34,0,0.4); }
+.cat-explosive { background: rgba(255,102,0,0.15); color: var(--orange); border: 1px solid rgba(255,102,0,0.4); }
+.cat-upgrade { background: rgba(0,153,255,0.15); color: #55aaff; border: 1px solid rgba(0,153,255,0.4); }
+.cat-drone { background: rgba(153,0,204,0.15); color: #cc77ff; border: 1px solid rgba(153,0,204,0.4); }
+.cat-utility { background: rgba(0,204,102,0.15); color: var(--green); border: 1px solid rgba(0,204,102,0.4); }
+.cat-cart { background: rgba(255,204,0,0.15); color: var(--yellow); border: 1px solid rgba(255,204,0,0.4); }
+.cat-health { background: rgba(255,80,120,0.15); color: #ff7799; border: 1px solid rgba(255,80,120,0.4); }
+.cat-vehicle { background: rgba(0,220,255,0.12); color: #44ddff; border: 1px solid rgba(0,220,255,0.4); }
+
+.item-name-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.item-name {
+  font-size: 1.1rem;
+  font-weight: 900;
+}
+
+.item-price {
+  font-family: 'Creepster', cursive;
+  font-size: 1rem;
+  color: var(--yellow);
+  letter-spacing: 1px;
+}
+
+.item-desc {
+  font-size: 0.83rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.item-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.stat-pill {
+  font-size: 0.72rem;
+  padding: 3px 10px;
+  border-radius: 10px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+}
+
+.stat-pill span { color: var(--text-dim); margin-right: 4px; }
+
+/* ===== 寶物卡片 ===== */
+.valuable-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 18px;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.valuable-card:hover {
+  border-color: var(--yellow);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+}
+
+.val-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.val-emoji { font-size: 1.8rem; }
+
+.val-img-wrap {
+  width: 100%;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.2);
+  border-radius: 7px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.val-img-wrap img {
+  max-height: 80px;
+  max-width: 80%;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 10px rgba(0,0,0,0.7));
+  transition: transform 0.3s ease;
+}
+
+.valuable-card:hover .val-img-wrap img {
+  transform: scale(1.08);
+}
+
+.val-emoji-fb { font-size: 2.2rem; }
+
+.val-name {
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.val-price {
+  margin-left: auto;
+  font-family: 'Creepster', cursive;
+  font-size: 1.05rem;
+  color: var(--yellow);
+}
+
+.val-desc {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  line-height: 1.55;
+  flex: 1;
+}
+
+.val-trap {
+  margin-top: 8px;
+  font-size: 0.78rem;
+  color: var(--orange);
+  background: rgba(255,102,0,0.08);
+  border: 1px solid rgba(255,102,0,0.25);
+  border-radius: 4px;
+  padding: 6px 10px;
+}
+
+/* ===== 空狀態 ===== */
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--text-dark);
+}
+
+.empty-state .big { font-size: 4rem; margin-bottom: 12px; }
+.empty-state p { font-size: 0.9rem; }
+
+/* ===== 統計欄 ===== */
+.stats-bar {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.stat-box {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 20px;
+  text-align: center;
+}
+
+.stat-num {
+  font-family: 'Creepster', cursive;
+  font-size: 1.8rem;
+  color: var(--red-glow);
+}
+
+.stat-lbl {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ===== 頁尾 ===== */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 20px 40px;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-dark);
+}
+
+/* ===== 捲動條 ===== */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* ===== 手機版 ===== */
+@media (max-width: 768px) {
+  .layout { grid-template-columns: 1fr; }
+  aside {
+    position: static;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 12px 0;
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    padding: 8px 12px;
+  }
+  .nav-label { display: none; }
+  .nav-btn { padding: 8px 14px; white-space: nowrap; border-left: none; border-bottom: 3px solid transparent; }
+  .nav-btn.active { border-bottom-color: var(--red); border-left-color: transparent; }
+  .nav-count { display: none; }
+  .site-title { font-size: 1.8rem; }
+  main { padding: 16px; }
+  .card-grid { grid-template-columns: 1fr; }
+}
+
+/* ===== 高亮搜尋 ===== */
+.hl { background: rgba(255,204,0,0.25); color: var(--yellow); border-radius: 2px; }
+
+.card-hidden { display: none !important; }
+
+/* ===== 頁面噪點紋理（恐怖氛圍） ===== */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.028;
+}
+
+/* ===== Header 掃描線 ===== */
+header { position: sticky; overflow: hidden; }
+header::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent 0px, transparent 3px, rgba(0,0,0,0.07) 3px, rgba(0,0,0,0.07) 4px);
+  pointer-events: none;
+}
+
+/* ===== 標題 Glitch 升級 ===== */
+@keyframes glitch {
+  0%,91%,100% { text-shadow: 0 0 20px rgba(255,51,0,0.8), 0 0 40px rgba(255,51,0,0.4); transform: none; }
+  92% { text-shadow: -2px 0 #0ff, 2px 0 #f00; transform: skewX(-1.5deg); }
+  93% { text-shadow: 0 0 20px rgba(255,51,0,0.9); transform: skewX(0.5deg); }
+  94% { text-shadow: 2px 0 #0ff, -2px 0 #f00; transform: none; }
+  96% { opacity: 0.4; text-shadow: none; }
+  97% { opacity: 1; }
+}
+.site-title { animation: glitch 9s infinite; }
+
+/* ===== 卡片立體化升級 ===== */
+.monster-card {
+  background: linear-gradient(150deg, #181818 0%, #101010 100%);
+}
+.monster-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, var(--tier-color, var(--red)), transparent 65%);
+  opacity: 0;
+  transition: opacity 0.35s;
+  pointer-events: none;
+  border-radius: 10px;
+}
+.monster-card:hover::after { opacity: 0.07; }
+
+.item-card {
+  background: linear-gradient(150deg, #181818 0%, #101010 100%);
+}
+.valuable-card {
+  background: linear-gradient(150deg, #181818 0%, #101010 100%);
+}
+
+/* ===== 圖片容器光暈 ===== */
+.card-img-wrap {
+  background: radial-gradient(ellipse at 50% 35%, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.32) 100%);
+  position: relative;
+}
+.card-img-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  background: radial-gradient(circle at 50% 85%, var(--tier-color, rgba(204,34,0,0.15)), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.monster-card:hover .card-img-wrap::after { opacity: 1; }
+
+.item-img-wrap {
+  background: radial-gradient(ellipse at 50% 35%, rgba(255,102,0,0.08) 0%, rgba(0,0,0,0.28) 100%);
+}
+.val-img-wrap {
+  background: radial-gradient(ellipse at 50% 35%, rgba(255,204,0,0.08) 0%, rgba(0,0,0,0.28) 100%);
+}
+
+/* ===== 區塊標題升級 ===== */
+.section-header { position: relative; }
+
+.section-title-glow {
+  font-family: 'Creepster', cursive;
+  font-size: 2rem;
+  letter-spacing: 2px;
+  position: relative;
+  display: inline-block;
+}
+.section-title-glow::after {
+  content: '';
+  display: block;
+  height: 2px;
+  width: 52px;
+  background: currentColor;
+  opacity: 0.55;
+  box-shadow: 0 0 10px currentColor;
+  margin-top: 6px;
+  border-radius: 1px;
+}
+
+/* ===== NEW badge ===== */
+.new-badge {
+  font-size: 0.52rem;
+  font-weight: 900;
+  padding: 1px 5px;
+  background: var(--red);
+  color: #fff;
+  border-radius: 3px;
+  letter-spacing: 1px;
+  vertical-align: super;
+  margin-left: 5px;
+  font-family: 'Noto Sans TC', sans-serif;
+  animation: pulse-badge 2.5s infinite;
+}
+@keyframes pulse-badge {
+  0%,100% { opacity: 1; box-shadow: 0 0 0 rgba(204,34,0,0); }
+  50% { opacity: 0.7; box-shadow: 0 0 6px rgba(204,34,0,0.6); }
+}
+
+/* ===== 卡車頁面 ===== */
+.truck-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 28px;
+  align-items: start;
+}
+.truck-img-main {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: #0a0a0a;
+  aspect-ratio: 16/9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.truck-img-main img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.9);
+  transition: transform 0.5s ease;
+}
+.truck-img-main:hover img { transform: scale(1.03); }
+
+.info-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 22px;
+}
+.info-box h3 {
+  font-family: 'Creepster', cursive;
+  font-size: 1.35rem;
+  color: var(--orange);
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+.info-box p {
+  font-size: 0.86rem;
+  color: var(--text-dim);
+  line-height: 1.72;
+  margin-bottom: 10px;
+}
+.feature-list {
+  list-style: none;
+  margin-top: 12px;
+}
+.feature-list li {
+  font-size: 0.84rem;
+  color: var(--text);
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  line-height: 1.5;
+}
+.feature-list li:last-child { border-bottom: none; }
+.feature-list li::before {
+  content: '>';
+  color: var(--orange);
+  font-weight: 900;
+  font-family: monospace;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 20px;
+}
+.media-card {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: #090909;
+}
+.media-card img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  display: block;
+  filter: brightness(0.85);
+  transition: transform 0.4s ease;
+}
+.media-card:hover img { transform: scale(1.03); }
+.media-caption {
+  font-size: 0.74rem;
+  color: var(--text-dark);
+  text-align: center;
+  padding: 7px 10px;
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+}
+.info-note {
+  margin-top: 20px;
+  background: rgba(255,102,0,0.07);
+  border: 1px solid rgba(255,102,0,0.3);
+  border-radius: 10px;
+  padding: 14px 18px;
+  font-size: 0.82rem;
+  color: var(--orange);
+  line-height: 1.65;
+}
+
+/* ===== 造型系統頁面 ===== */
+.cosm-flow {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 0 0 28px;
+}
+.cosm-flow-step {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 0.8rem;
+  text-align: center;
+  flex: 1;
+  min-width: 110px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.cosm-flow-step:hover {
+  border-color: rgba(153,0,204,0.5);
+  transform: translateY(-2px);
+}
+.cosm-flow-step .step-num {
+  font-family: 'Creepster', cursive;
+  font-size: 1.6rem;
+  color: #cc77ff;
+  display: block;
+  line-height: 1;
+}
+.cosm-flow-step .step-desc {
+  color: var(--text-dim);
+  margin-top: 6px;
+  line-height: 1.45;
+}
+.cosm-flow-arrow {
+  font-size: 1.1rem;
+  color: var(--text-dark);
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.cosm-box-section {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 20px;
+  align-items: center;
+  background: var(--card);
+  border: 1px solid rgba(153,0,204,0.35);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 28px;
+  position: relative;
+  overflow: hidden;
+}
+.cosm-box-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 0% 50%, rgba(153,0,204,0.1), transparent 55%);
+  pointer-events: none;
+}
+.cosm-box-img {
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 18px rgba(153,0,204,0.55));
+}
+.cosm-box-section h3 {
+  font-family: 'Creepster', cursive;
+  font-size: 1.3rem;
+  color: #cc77ff;
+  margin-bottom: 8px;
+}
+.cosm-box-section p {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  line-height: 1.68;
+  position: relative;
+}
+
+.token-img-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.token-img-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.token-img-card:hover { border-color: rgba(153,0,204,0.4); }
+.token-img-card img {
+  width: 100%;
+  object-fit: cover;
+  display: block;
+  filter: brightness(0.88);
+  transition: transform 0.4s ease;
+}
+.token-img-card:hover img { transform: scale(1.03); }
+.token-img-card .caption {
+  padding: 8px 12px;
+  font-size: 0.77rem;
+  color: var(--text-dim);
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+}
+
+.rarity-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+  margin-bottom: 32px;
+}
+.rarity-card {
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid var(--r-color, var(--border));
+  background: var(--card);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.22s, box-shadow 0.22s;
+}
+.rarity-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--r-color, var(--border));
+  box-shadow: 0 0 12px var(--r-color, transparent);
+}
+.rarity-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, var(--r-color, transparent), transparent 65%);
+  opacity: 0.08;
+  pointer-events: none;
+}
+.rarity-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.55), 0 0 0 1px var(--r-color, transparent);
+}
+.rarity-label {
+  font-size: 0.63rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--r-color, var(--text-dim));
+  margin-bottom: 12px;
+}
+.rarity-token-img {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  display: block;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 2px 10px var(--r-color, transparent));
+}
+.rarity-count {
+  font-family: 'Creepster', cursive;
+  font-size: 2.6rem;
+  color: var(--r-color, var(--text));
+  line-height: 1;
+}
+.rarity-count-lbl {
+  font-size: 0.74rem;
+  color: var(--text-dim);
+  margin-top: 3px;
+  margin-bottom: 10px;
+}
+.rarity-desc {
+  font-size: 0.79rem;
+  color: var(--text-dim);
+  line-height: 1.58;
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+}
+.cosm-gallery {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.cosm-gallery-img {
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: #090909;
+}
+.cosm-gallery-img img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+  filter: brightness(0.9);
+  transition: transform 0.4s;
+}
+.cosm-gallery-img:hover img { transform: scale(1.03); }
+.cosm-note {
+  margin-top: 20px;
+  background: rgba(153,0,204,0.07);
+  border: 1px solid rgba(153,0,204,0.3);
+  border-radius: 10px;
+  padding: 14px 18px;
+  font-size: 0.82rem;
+  color: #cc77ff;
+  line-height: 1.65;
+}
+
+/* ===== 響應式補丁 ===== */
+@media (max-width: 900px) {
+  .truck-hero, .two-col, .cosm-gallery { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .token-img-row, .cosm-box-section { grid-template-columns: 1fr; }
+  .cosm-flow-arrow { display: none; }
+  .cosm-box-img { width: 80px; height: 80px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div>
+      <div class="site-title">R.E.P.O. 百科</div>
+      <div class="site-sub">非官方中文圖鑑 · 新手救命手冊</div>
+    </div>
+    <div class="search-wrap">
+      <input class="search-input" type="text" id="searchInput" placeholder="搜尋怪物、道具、寶物...">
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <aside>
+    <div class="nav-section">
+      <div class="nav-label">分類</div>
+      <button class="nav-btn active" onclick="showSection('monsters')" id="btn-monsters">
+        <span class="icon">👾</span> 怪物圖鑑
+        <span class="nav-count" id="cnt-monsters"></span>
+      </button>
+      <button class="nav-btn" onclick="showSection('weapons')" id="btn-weapons">
+        <span class="icon">🔫</span> 武器道具
+        <span class="nav-count" id="cnt-weapons"></span>
+      </button>
+      <button class="nav-btn" onclick="showSection('valuables')" id="btn-valuables">
+        <span class="icon">💎</span> 寶物清單
+        <span class="nav-count" id="cnt-valuables"></span>
+      </button>
+      <button class="nav-btn" onclick="showSection('truck')" id="btn-truck">
+        <span class="icon">🚛</span> 卡車<span class="new-badge">NEW</span>
+      </button>
+      <button class="nav-btn" onclick="showSection('cosmetics')" id="btn-cosmetics">
+        <span class="icon">🎨</span> 造型系統<span class="new-badge">NEW</span>
+      </button>
+    </div>
+    <div class="nav-section" id="tierFilterSection">
+      <div class="nav-label">危險等級</div>
+      <div class="filter-row">
+        <div class="filter-chip active-chip" data-tier="all" onclick="setTierFilter('all')">全部</div>
+        <div class="filter-chip" data-tier="1" onclick="setTierFilter('1')">T1</div>
+        <div class="filter-chip" data-tier="2" onclick="setTierFilter('2')">T2</div>
+        <div class="filter-chip" data-tier="3" onclick="setTierFilter('3')">T3</div>
+      </div>
+    </div>
+  </aside>
+
+  <main>
+    <!-- ===== 怪物 ===== -->
+    <section id="sec-monsters" class="section visible">
+      <div class="section-header">
+        <div class="section-title" style="color: var(--red-glow);">怪物圖鑑</div>
+        <div class="section-desc">遇到這些東西就是你的問題了</div>
+      </div>
+      <div class="stats-bar" id="monster-stats"></div>
+      <div class="card-grid" id="monster-grid"></div>
+      <div class="empty-state" id="monster-empty" style="display:none">
+        <div class="big">👻</div>
+        <p>沒找到這隻怪物，也許牠正躲在你身後</p>
+      </div>
+    </section>
+
+    <!-- ===== 武器道具 ===== -->
+    <section id="sec-weapons" class="section">
+      <div class="section-header">
+        <div class="section-title" style="color: var(--orange);">武器 &amp; 道具</div>
+        <div class="section-desc">用錢買來的，千萬別讓隊友搶走</div>
+      </div>
+      <div class="stats-bar" id="weapon-stats"></div>
+      <div class="card-grid" id="weapon-grid"></div>
+    </section>
+
+    <!-- ===== 寶物 ===== -->
+    <section id="sec-valuables" class="section">
+      <div class="section-header">
+        <div class="section-title" style="color: var(--yellow);">寶物清單</div>
+        <div class="section-desc">搬出去就有錢，但有幾個會反殺你</div>
+      </div>
+      <div class="stats-bar" id="valuable-stats"></div>
+      <div class="card-grid" id="valuable-grid"></div>
+    </section>
+
+    <!-- ===== 卡車 ===== -->
+    <section id="sec-truck" class="section">
+      <div class="section-header">
+        <div class="section-title-glow" style="color: var(--orange);">卡車</div>
+        <div class="section-desc">你的移動基地，也是唯一安全的地方</div>
+      </div>
+
+      <div class="truck-hero">
+        <div class="truck-img-main">
+          <img src="https://static.wikia.nocookie.net/repo-2025horror/images/7/7f/SemibotTruck.png/revision/latest/scale-to-width-down/400?cb=20250729203811" alt="Truck" onerror="this.style.display='none'">
+        </div>
+        <div class="info-box">
+          <h3>Semibot 的移動基地</h3>
+          <p>卡車是你們這群機器人的運輸工具，負責把你們載去各種地點執行任務。它有個特殊能力：到達任何建築後都能在牆上強制鑽出一個出入口，不需要找門。</p>
+          <p>車頭裝有衛星天線，用來接收 Taxman（那個一直催你們達成配額的老闆）的訊號。主選單背景就是這台車在松樹林間行駛。</p>
+          <ul class="feature-list">
+            <li>抵達任何建築後自動開鑿出入口，直接進去</li>
+            <li>車內有水晶充電站，可替商店道具補充電量（第一關不會出現）</li>
+            <li>車頂有某種治療機制，具體原理 wiki 尚未記錄完整</li>
+            <li>車內螢幕 + 按鈕，用來聯絡 Taxman 並確認進入下一關或補給站</li>
+            <li>車內的桌子可以躲人，不過怪物基本上不會衝進卡車</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <span class="section-title-glow" style="font-size:1.25rem;color:var(--text-dim);">車內配置</span>
+      </div>
+      <div class="two-col">
+        <div class="media-card">
+          <img src="https://static.wikia.nocookie.net/repo-2025horror/images/e/ec/TruckInterior.jpg/revision/latest?cb=20250729211427" alt="Truck Interior">
+          <div class="media-caption">卡車內部（第一關前，無樓梯）</div>
+        </div>
+        <div class="info-box" style="padding:20px;">
+          <h3 style="font-size:1.1rem;margin-bottom:12px;">設施說明</h3>
+          <ul class="feature-list">
+            <li><strong style="color:var(--text)">樓梯</strong>：教學關卡和第一關前沒有，之後正常關卡才出現</li>
+            <li><strong style="color:var(--text)">水晶充電站</strong>（靠左）：替商店購買的道具補電，第一關不出現</li>
+            <li><strong style="color:var(--text)">右邊桌子</strong>：可以鑽進去躲，但沒什麼實際場景需要用</li>
+            <li><strong style="color:var(--text)">天花板機制</strong>：外觀像某種治療裝置，細節尚未確認</li>
+            <li><strong style="color:var(--text)">聯絡螢幕</strong>：按下橘色按鈕呼叫 Taxman，確認進入下一步</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="info-note">
+        <strong>出現場合：</strong>主選單（白天行駛）、大廳（夜晚行駛）、教學關卡末尾、各種載入畫面、Game Over 畫面。這台車是整個遊戲的視覺精神象徵。
+      </div>
+    </section>
+
+    <!-- ===== 造型系統 ===== -->
+    <section id="sec-cosmetics" class="section">
+      <div class="section-header">
+        <div class="section-title-glow" style="color: #cc77ff;">造型系統</div>
+        <div class="section-desc">投幣抽造型，越稀有越沒用但越帥</div>
+      </div>
+
+      <div class="cosm-flow">
+        <div class="cosm-flow-step">
+          <span class="step-num">01</span>
+          <div class="step-desc">關卡內找到<br><strong>造型箱</strong></div>
+        </div>
+        <div class="cosm-flow-arrow">&#8594;</div>
+        <div class="cosm-flow-step">
+          <span class="step-num">02</span>
+          <div class="step-desc">搬到提取點<br><strong>提取出去</strong></div>
+        </div>
+        <div class="cosm-flow-arrow">&#8594;</div>
+        <div class="cosm-flow-step">
+          <span class="step-num">03</span>
+          <div class="step-desc">完成這關<br><strong>Taxman 給 Token</strong></div>
+        </div>
+        <div class="cosm-flow-arrow">&#8594;</div>
+        <div class="cosm-flow-step">
+          <span class="step-num">04</span>
+          <div class="step-desc">補給站投幣<br><strong>抽造型</strong></div>
+        </div>
+      </div>
+
+      <div class="cosm-box-section">
+        <img class="cosm-box-img" src="https://static.wikia.nocookie.net/repo-2025horror/images/3/38/12x_Quantum_Drive_Stack_Museum_.png/revision/latest/scale-to-width-down/400?cb=20260510103420" alt="Quantum Drive Stack" onerror="this.style.display='none'">
+        <div>
+          <h3>Quantum Drive Stack（造型箱）</h3>
+          <p>關卡地圖裡隨機出現的特殊物品，外觀是一疊光碟片造型的東西。把它搬到提取點並完成這關之後，Taxman 會根據箱子的稀有度發給你一個對應稀有度的 Tax Token。Token 不影響金錢配額，純粹用來換造型用。</p>
+        </div>
+      </div>
+
+      <div class="token-img-row">
+        <div class="token-img-card">
+          <img src="https://static.wikia.nocookie.net/repo-2025horror/images/a/a7/Green_tax_token.jpg/revision/latest?cb=20260510104042" alt="Taxman giving token">
+          <div class="caption">Taxman 在關卡結算時發放 Tax Token</div>
+        </div>
+        <div class="token-img-card">
+          <img src="https://static.wikia.nocookie.net/repo-2025horror/images/1/15/Tax_Terminal.jpg/revision/latest?cb=20260510104130" alt="Tax Terminal">
+          <div class="caption">補給站裡的 Cosmetic Shop Machine（投幣機）</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:14px;">
+        <span class="section-title-glow" style="font-size:1.25rem;color:#cc77ff;">Tax Token 稀有度</span>
+        <div style="font-size:0.83rem;color:var(--text-dim);margin-top:8px;">四種稀有度，Token 顏色對應造型稀有度。投幣機根據 Token 等級吐出同等稀有度的造型。</div>
+      </div>
+
+      <div class="rarity-grid">
+        <div class="rarity-card" style="--r-color: #7FFF00;">
+          <div class="rarity-label">Common / 普通</div>
+          <img class="rarity-token-img" src="https://static.wikia.nocookie.net/repo-2025horror/images/8/86/Tax_Token.png/revision/latest/scale-to-width-down/400?cb=20260511142755" alt="Common Token" onerror="this.style.display='none'">
+          <div class="rarity-count">280</div>
+          <div class="rarity-count-lbl">種造型</div>
+          <div class="rarity-desc">Token 顏色：綠色。最容易取得，人手一件的等級。</div>
+        </div>
+        <div class="rarity-card" style="--r-color: #57A0D3;">
+          <div class="rarity-label">Uncommon / 少見</div>
+          <img class="rarity-token-img" src="https://static.wikia.nocookie.net/repo-2025horror/images/6/6b/Stack_of_tax_token.png/revision/latest?cb=20260510104408" alt="Token Stack" onerror="this.style.display='none'">
+          <div class="rarity-count">131</div>
+          <div class="rarity-count-lbl">種造型</div>
+          <div class="rarity-desc">Token 顏色：藍色。稀有度第二低，還算常見。</div>
+        </div>
+        <div class="rarity-card" style="--r-color: #F81894;">
+          <div class="rarity-label">Rare / 稀有</div>
+          <img class="rarity-token-img" src="https://static.wikia.nocookie.net/repo-2025horror/images/6/6b/Stack_of_tax_token.png/revision/latest?cb=20260510104408" alt="Token Stack" onerror="this.style.display='none'">
+          <div class="rarity-count">105</div>
+          <div class="rarity-count-lbl">種造型</div>
+          <div class="rarity-desc">Token 顏色：粉紅。對應的造型比較獨特，不常見。</div>
+        </div>
+        <div class="rarity-card" style="--r-color: #E6CC00;">
+          <div class="rarity-label">Ultra-Rare / 超稀有</div>
+          <img class="rarity-token-img" src="https://static.wikia.nocookie.net/repo-2025horror/images/6/6b/Stack_of_tax_token.png/revision/latest?cb=20260510104408" alt="Token Stack" onerror="this.style.display='none'">
+          <div class="rarity-count">31</div>
+          <div class="rarity-count-lbl">種造型</div>
+          <div class="rarity-desc">Token 顏色：黃色。僅 31 種，全集算你厲害。</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:14px;">
+        <span class="section-title-glow" style="font-size:1.25rem;color:#cc77ff;">造型示意</span>
+      </div>
+      <div class="cosm-gallery">
+        <div class="cosm-gallery-img">
+          <img src="https://static.wikia.nocookie.net/repo-2025horror/images/1/1b/Example_A.png/revision/latest?cb=20260510115140" alt="Cosmetics example A" onerror="this.style.display='none'">
+        </div>
+        <div class="cosm-gallery-img">
+          <img src="https://static.wikia.nocookie.net/repo-2025horror/images/0/05/Example_b.png/revision/latest?cb=20260510115402" alt="Cosmetics example B" onerror="this.style.display='none'">
+        </div>
+      </div>
+
+      <div class="cosm-note">
+        <strong>注意：</strong>Token 和造型跨存檔保留，重開一局也不會消失。目前全遊戲共有超過 547 種造型，涵蓋各種顏色、身體零件、配件等。具體清單 wiki 還在整理中，但數量真的很多。
+      </div>
+    </section>
+  </main>
+</div>
+
+<footer>
+  R.E.P.O. 非官方中文百科 · 資料來源：Steam 社群攻略、Fandom Wiki · 非官方製作，與 semiwork 無關
+</footer>
+
+<script>
+// ===================== 怪物圖片對照表（來源：Fandom Wiki）=====================
+const MONSTER_IMG = {
+  "Gnome":         "https://static.wikia.nocookie.net/repo-2025horror/images/d/d9/Gnome_Transparent.png/revision/latest/scale-to-width-down/300?cb=20250612054403",
+  "Spewer":        "https://static.wikia.nocookie.net/repo-2025horror/images/9/99/Spewer_Transparent.png/revision/latest/scale-to-width-down/300?cb=20250612100158",
+  "Peeper":        "https://static.wikia.nocookie.net/repo-2025horror/images/5/57/Peeper_Transparent.png/revision/latest/scale-to-width-down/300?cb=20250612054522",
+  "Apex Predator": "https://static.wikia.nocookie.net/repo-2025horror/images/9/9d/Apex_Predator_Transparent.png/revision/latest/scale-to-width-down/300?cb=20250612053934",
+  "Shadow Child":  "https://static.wikia.nocookie.net/repo-2025horror/images/4/4e/Shadow_Child_Transparent.png/revision/latest/scale-to-width-down/300?cb=20250612054715",
+  "Tick":          "https://static.wikia.nocookie.net/repo-2025horror/images/d/d5/Tick_monster.png/revision/latest/scale-to-width-down/300?cb=20251201222237",
+  "Bella":         "https://static.wikia.nocookie.net/repo-2025horror/images/b/b3/Bella_monster.png/revision/latest/scale-to-width-down/300?cb=20251201222436",
+  "Birthday Boy":  "https://static.wikia.nocookie.net/repo-2025horror/images/6/6c/Birthday_Boy_monster.png/revision/latest/scale-to-width-down/300?cb=20251201222356",
+  "Elsa":          "https://static.wikia.nocookie.net/repo-2025horror/images/9/94/Elsa_monster.png/revision/latest/scale-to-width-down/300?cb=20251201222309",
+  "Headgrab":      "https://static.wikia.nocookie.net/repo-2025horror/images/a/a6/Headgrab_monster.png/revision/latest/scale-to-width-down/300?cb=20251201222115",
+  "Bangers":       "https://static.wikia.nocookie.net/repo-2025horror/images/8/8a/Banger_Transparent.png/revision/latest/scale-to-width-down/300?cb=20250612053934",
+  "Rugrat":        "https://static.wikia.nocookie.net/repo-2025horror/images/7/77/Rugrat_Transparent.png/revision/latest/scale-to-width-down/300?cb=20250612054715",
+  "Heart Hugger":  "https://static.wikia.nocookie.net/repo-2025horror/images/4/45/Heart_Hugger_monster.png/revision/latest/scale-to-width-down/300?cb=20251201222041",
+  "Gambit":        "https://static.wikia.nocookie.net/repo-2025horror/images/0/0a/Gambit_monster.png/revision/latest/scale-to-width-down/300?cb=20251201222152",
+  "Animal":        "https://static.wikia.nocookie.net/repo-2025horror/images/2/2b/Animal_Transparent.png/revision/latest/scale-to-width-down/300?cb=20250612095937",
+  "Bowtie":        "https://static.wikia.nocookie.net/repo-2025horror/images/b/b5/Bowtie_Transparent.png/revision/latest/scale-to-width-down/300?cb=20250612053934",
+  "Chef":          "https://static.wikia.nocookie.net/repo-2025horror/images/7/74/Chef_Transparent.png/revision/latest/scale-to-width-down/300?cb=20250612054402",
+  "Hidden":        "https://static.wikia.nocookie.net/repo-2025horror/images/2/2c/Hidden_Transparent.png/revision/latest/scale-to-width-down/300?cb=20250705193250",
+  "Mentalist":     "https://static.wikia.nocookie.net/repo-2025horror/images/2/2c/Mentalist_Transparent.png/revision/latest/scale-to-width-down/300?cb=20250612054522",
+  "Upscream":      "https://static.wikia.nocookie.net/repo-2025horror/images/2/25/Upscream_Transparent.png/revision/latest/scale-to-width-down/300?cb=20250612100128",
+  "Oogly":         "https://static.wikia.nocookie.net/repo-2025horror/images/4/43/Oogly_monster.png/revision/latest/scale-to-width-down/300?cb=20251201222007",
+  "Cleanup Crew":  "https://static.wikia.nocookie.net/repo-2025horror/images/0/08/Cleanup_Crew_monster.png/revision/latest/scale-to-width-down/300?cb=20251201221854",
+  "Clown":         "https://static.wikia.nocookie.net/repo-2025horror/images/b/ba/Clown_beamer.png/revision/latest/scale-to-width-down/300?cb=20250318192346",
+  "Headman":       "https://static.wikia.nocookie.net/repo-2025horror/images/2/20/Headman_Transparent.png/revision/latest/scale-to-width-down/300?cb=20250612054405",
+  "Huntsman":      "https://static.wikia.nocookie.net/repo-2025horror/images/4/4c/Huntsman_Transparent.png/revision/latest/scale-to-width-down/300?cb=20250612054521",
+  "Reaper":        "https://static.wikia.nocookie.net/repo-2025horror/images/a/ad/Reaper_Transparent.png/revision/latest/scale-to-width-down/300?cb=20250612054522",
+  "Loom":          "https://static.wikia.nocookie.net/repo-2025horror/images/2/20/Loom_monster.png/revision/latest/scale-to-width-down/300?cb=20251201221746",
+  "Robe":          "https://static.wikia.nocookie.net/repo-2025horror/images/5/55/Robe_Transparent.png/revision/latest/scale-to-width-down/300?cb=20250612054714",
+  "Trudge":        "https://static.wikia.nocookie.net/repo-2025horror/images/6/65/Trudge_Transparent.png/revision/latest/scale-to-width-down/300?cb=20250612054905",
+};
+
+// ===================== 物品圖片對照表（來源：Fandom Wiki）=====================
+const ITEM_IMG = {
+  // 升級
+  "Health Upgrade":       "https://static.wikia.nocookie.net/repo-2025horror/images/3/39/UpgradeHealth.png/revision/latest?cb=20250407223746",
+  "Strength Upgrade":     "https://static.wikia.nocookie.net/repo-2025horror/images/7/75/UpgradeStrength.png/revision/latest?cb=20250407223747",
+  "Range Upgrade":        "https://static.wikia.nocookie.net/repo-2025horror/images/a/a4/UpgradeRange.png/revision/latest?cb=20250407223747",
+  "Sprint Speed Upgrade": "https://static.wikia.nocookie.net/repo-2025horror/images/2/20/Sprint_Speed_Upgrade.png/revision/latest?cb=20250601225303",
+  "Stamina Upgrade":      "https://static.wikia.nocookie.net/repo-2025horror/images/c/c5/UpgradeStamina.png/revision/latest?cb=20250407223747",
+  "Double Jump":          "https://static.wikia.nocookie.net/repo-2025horror/images/a/ae/UpgradeJump.png/revision/latest?cb=20250407223746",
+  "Tumble Launch":        "https://static.wikia.nocookie.net/repo-2025horror/images/b/be/UpgradeTumble.png/revision/latest?cb=20250407223747",
+  "Tumble Wings":         "https://static.wikia.nocookie.net/repo-2025horror/images/b/be/UpgradeTumble.png/revision/latest?cb=20250407223747",
+  // 醫療
+  "Small Health Pack":    "https://static.wikia.nocookie.net/repo-2025horror/images/5/50/HealthSmall.png/revision/latest?cb=20250407223745",
+  "Medium Health Pack":   "https://static.wikia.nocookie.net/repo-2025horror/images/e/e7/HealthMedium.png/revision/latest?cb=20250407223745",
+  "Large Health Pack":    "https://static.wikia.nocookie.net/repo-2025horror/images/c/ca/HealthLarge.png/revision/latest?cb=20250407223745",
+  // 武器
+  "Baseball Bat":         "https://static.wikia.nocookie.net/repo-2025horror/images/9/91/Baseball_Bat.PNG/revision/latest?cb=20250625054624",
+  "Frying Pan":           "https://static.wikia.nocookie.net/repo-2025horror/images/3/3f/MeleeFryingPan.png/revision/latest?cb=20250407223745",
+  "Sledge Hammer":        "https://static.wikia.nocookie.net/repo-2025horror/images/0/0d/MeleeSledgeHammer.png/revision/latest?cb=20250407223745",
+  "Sword":                "https://static.wikia.nocookie.net/repo-2025horror/images/a/ae/MeleeSword.png/revision/latest?cb=20250407223745",
+  "Inflatable Hammer":    "https://static.wikia.nocookie.net/repo-2025horror/images/9/96/MeleeInflatableHammer.png/revision/latest?cb=20250407223745",
+  "Prodzap":              "https://static.wikia.nocookie.net/repo-2025horror/images/f/fe/Prodzap2.png/revision/latest?cb=20250625054000",
+  "Gun":                  "https://static.wikia.nocookie.net/repo-2025horror/images/1/13/GunHandgun.png/revision/latest?cb=20250407223744",
+  "Shotgun":              "https://static.wikia.nocookie.net/repo-2025horror/images/b/b0/GunShotgun.png/revision/latest?cb=20250407223745",
+  "Tranquilizer Gun":     "https://static.wikia.nocookie.net/repo-2025horror/images/1/1f/GunTranq.png/revision/latest?cb=20250407223744",
+  "Boltzap":              "https://static.wikia.nocookie.net/repo-2025horror/images/3/3d/Bolt_zap.png/revision/latest?cb=20250625054308",
+  "Pulse Pistol":         "https://static.wikia.nocookie.net/repo-2025horror/images/0/08/Pulse_Pistol_R.E.P.O..png/revision/latest?cb=20250625040201",
+  "Photon Blaster":       "https://static.wikia.nocookie.net/repo-2025horror/images/5/5f/PhotonBlaster.png/revision/latest?cb=20250625054136",
+  // 爆炸物
+  "Grenade":              "https://static.wikia.nocookie.net/repo-2025horror/images/f/fb/Grenade.png/revision/latest?cb=20250407223744",
+  "Shock Grenade":        "https://static.wikia.nocookie.net/repo-2025horror/images/2/29/GrenadeShockwave.png/revision/latest?cb=20250407223744",
+  "Stun Grenade":         "https://static.wikia.nocookie.net/repo-2025horror/images/c/c7/GrenadeStun.png/revision/latest?cb=20250407223744",
+  "Duct Taped Grenade":   "https://static.wikia.nocookie.net/repo-2025horror/images/a/a3/DuctGrenade.png/revision/latest?cb=20250731164053",
+  "Rubber Duck":          "https://static.wikia.nocookie.net/repo-2025horror/images/9/96/RubberDuck.png/revision/latest?cb=20250407223746",
+  "Shockwave Mine":       "https://static.wikia.nocookie.net/repo-2025horror/images/6/6b/MineShockwave.png/revision/latest?cb=20250407223745",
+  "Explosive Mine":       "https://static.wikia.nocookie.net/repo-2025horror/images/a/a0/Mine.png/revision/latest?cb=20250407223746",
+  // 無人機
+  "Recharge Drone":       "https://static.wikia.nocookie.net/repo-2025horror/images/8/8d/DroneRecharge.png/revision/latest?cb=20250407223743",
+  "Indestructible Drone": "https://static.wikia.nocookie.net/repo-2025horror/images/f/fb/DroneIndestructible.png/revision/latest?cb=20250407223743",
+  "Roll Drone":           "https://static.wikia.nocookie.net/repo-2025horror/images/1/11/DroneRoll.png/revision/latest?cb=20250407223743",
+  "Feather Drone":        "https://static.wikia.nocookie.net/repo-2025horror/images/d/d2/DroneFeather.png/revision/latest?cb=20250407223743",
+  "Zero Gravity Drone":   "https://static.wikia.nocookie.net/repo-2025horror/images/5/57/DroneZeroGravity.png/revision/latest?cb=20250407223743",
+  // 工具
+  "Zero Gravity Orb":     "https://static.wikia.nocookie.net/repo-2025horror/images/3/3d/ZeroGravityOrb.png/revision/latest?cb=20250407223747",
+  "Phase Bridge":         "https://static.wikia.nocookie.net/repo-2025horror/images/0/08/Phase_Bridge_R.E.P.O..png/revision/latest?cb=20250625040321",
+  "Energy Crystal":       "https://static.wikia.nocookie.net/repo-2025horror/images/f/fc/EnergyCrystal.png/revision/latest?cb=20250407223743",
+  "Duck Bucket":          "https://static.wikia.nocookie.net/repo-2025horror/images/5/5d/Duck_Bucket.png/revision/latest?cb=20250625085333",
+  // 購物車
+  "Pocket C.A.R.T.":      "https://static.wikia.nocookie.net/repo-2025horror/images/c/cc/CartSmall.png/revision/latest?cb=20250407223743",
+  "C.A.R.T.":             "https://static.wikia.nocookie.net/repo-2025horror/images/1/11/CartBig.png/revision/latest?cb=20250407223742",
+  "C.A.R.T. Cannon":      "https://static.wikia.nocookie.net/repo-2025horror/images/f/f4/C.A.R.T._Canon.png/revision/latest?cb=20250625054824",
+  "C.A.R.T. Laser":       "https://static.wikia.nocookie.net/repo-2025horror/images/e/eb/C.A.R.T._Laser.png/revision/latest?cb=20250625055212",
+  // 載具（v0.4.0 造型更新新增）
+  "Scout":                "https://www.destructoid.com/wp-content/uploads/2026/05/REPO-Scout.jpg",
+  "Hauler":               "https://www.destructoid.com/wp-content/uploads/2026/05/REPO-Hauler.jpg",
+};
+
+// ===================== 寶物圖片對照表（來源：Fandom Wiki）=====================
+const VALUABLE_IMG = {
+  "Diamond":            "https://static.wikia.nocookie.net/repo-2025horror/images/e/ea/Diamond.png/revision/latest?cb=20250519081439",
+  "Money Bundle":       "https://static.wikia.nocookie.net/repo-2025horror/images/5/59/Money.png/revision/latest?cb=20250519081255",
+  "Jade Bracelet":      "https://static.wikia.nocookie.net/repo-2025horror/images/3/33/Bracelet.png/revision/latest?cb=20250519081437",
+  "Goblet":             "https://static.wikia.nocookie.net/repo-2025horror/images/b/b2/Goblet.png/revision/latest?cb=20250519081427",
+  "Crown":              "https://static.wikia.nocookie.net/repo-2025horror/images/f/f3/Crown.png/revision/latest?cb=20250519081334",
+  "Doll":               "https://static.wikia.nocookie.net/repo-2025horror/images/f/fb/Doll.png/revision/latest?cb=20250519081328",
+  "Pocket Watch":       "https://static.wikia.nocookie.net/repo-2025horror/images/1/10/Pocket_Watch.png/revision/latest?cb=20250519081415",
+  "Uranium Mug":        "https://static.wikia.nocookie.net/repo-2025horror/images/d/d7/Uranium_Mug.png/revision/latest?cb=20250519081400",
+  "Wind-up Frog":       "https://static.wikia.nocookie.net/repo-2025horror/images/e/e6/Frog.png/revision/latest?cb=20250519081318",
+  "Gem Box":            "https://static.wikia.nocookie.net/repo-2025horror/images/b/b4/Gem_Box.png/revision/latest?cb=20250519081312",
+  "Vase (Small)":       "https://static.wikia.nocookie.net/repo-2025horror/images/0/0b/Small_Vase.png/revision/latest?cb=20250519081236",
+  "Vase (Large)":       "https://static.wikia.nocookie.net/repo-2025horror/images/6/60/Big_Vase.png/revision/latest?cb=20250519080921",
+  "Ship in a Bottle":   "https://static.wikia.nocookie.net/repo-2025horror/images/f/fd/Ship_in_a_Bottle.png/revision/latest?cb=20250519081103",
+  "Radio":              "https://static.wikia.nocookie.net/repo-2025horror/images/3/31/Radio.png/revision/latest?cb=20250519081110",
+  "Trophy":             "https://static.wikia.nocookie.net/repo-2025horror/images/c/cd/Trophy.png/revision/latest?cb=20250519081058",
+  "Gramophone":         "https://static.wikia.nocookie.net/repo-2025horror/images/0/0e/Gramophone.png/revision/latest?cb=20250519081142",
+  "Music Box":          "https://static.wikia.nocookie.net/repo-2025horror/images/7/74/Music_Box.png/revision/latest?cb=20250519081249",
+  "Scream Doll":        "https://static.wikia.nocookie.net/repo-2025horror/images/e/ed/Scream_Doll.png/revision/latest?cb=20250519080939",
+  "Toy Monkey":         "https://static.wikia.nocookie.net/repo-2025horror/images/6/68/Toy_Monkey.png/revision/latest?cb=20250519081242",
+  "Love Potion":        "https://static.wikia.nocookie.net/repo-2025horror/images/3/3b/Love_Potion.png/revision/latest?cb=20250519081300",
+  "Explosive Barrel":   "https://static.wikia.nocookie.net/repo-2025horror/images/a/a1/Barrel.png/revision/latest?cb=20250519081037",
+  "Glowing Hourglass":  "https://static.wikia.nocookie.net/repo-2025horror/images/1/11/Hourglass.png/revision/latest?cb=20250519081043",
+  "Clown Toy":          "https://static.wikia.nocookie.net/repo-2025horror/images/f/ff/Clown.png/revision/latest?cb=20250519081155",
+  "Broken Flamethrower":"https://static.wikia.nocookie.net/repo-2025horror/images/a/ad/Flamethrower.png/revision/latest?cb=20250519081020",
+  "Animal Crate":       "https://static.wikia.nocookie.net/repo-2025horror/images/1/19/Animal_Crate.png/revision/latest?cb=20250519080903",
+  "Dinosaur Fossil":    "https://static.wikia.nocookie.net/repo-2025horror/images/4/47/REPOdinorender.png/revision/latest?cb=20251005044046",
+  "Piano":              "https://static.wikia.nocookie.net/repo-2025horror/images/e/ea/Piano.png/revision/latest?cb=20250519080841",
+  "Harp":               "https://static.wikia.nocookie.net/repo-2025horror/images/4/4e/Harp.png/revision/latest?cb=20250519080823",
+  "Oil Painting":       "https://static.wikia.nocookie.net/repo-2025horror/images/e/ea/Painting.png/revision/latest?cb=20250519080811",
+  "Gold Statue":        "https://static.wikia.nocookie.net/repo-2025horror/images/7/7b/Golden_Statue.png/revision/latest?cb=20250519080753",
+  "Grandfather Clock":  "https://static.wikia.nocookie.net/repo-2025horror/images/3/34/Grandfather_Clock.png/revision/latest?cb=20250519080748",
+  "Cube of Knowledge":  "https://static.wikia.nocookie.net/repo-2025horror/images/d/de/Cube_of_Knowledge.png/revision/latest?cb=20250519080915",
+};
+
+// ===================== 資料 =====================
+
+const monsters = [
+  // ===== TIER 1 =====
+  {
+    nameEn: "Gnome", nameZh: "地精", tier: 1, emoji: "🧙",
+    desc: "最常見也最煩人的開場怪，三到五隻一群出沒，單隻看起來很蠢，但你要是被四隻同時撲上就知道誰才蠢了。",
+    behavior: "成群出沒（3-5隻），其中一隻發現你之後全體一起衝過來。移動速度不快，但數量補償了一切。",
+    attack: "近距離衝撞，每次造成少量傷害，但多隻同時攻擊會快速疊加。",
+    howTo: "把牠們撿起來往牆壁砸就能一擊消滅。或者滾地板（Tumble）直接輾過去。單隻絲毫不威脅，保持距離慢慢處理。",
+    funFact: "這傢伙被成功砸牆的瞬間會發出一聲很蠢的音效，非常解壓。",
+    tags: ["成群出沒", "近戰", "可用物理消滅"]
+  },
+  {
+    nameEn: "Spewer", nameZh: "嘔吐飛怪", tier: 1, emoji: "🤮",
+    desc: "一隻懸浮在空中、以嘔吐為主要攻擊手段的飛行生物。靠近後會先抓住你的頭，再退到遠處對著你狂噴。",
+    behavior: "在空中飄移巡邏，發現目標後先急速靠近，用爪子抓住玩家頭部，然後飛退到中距離開始噴射酸液。",
+    attack: "嘔吐液體，造成傷害並讓你進入「翻滾」狀態（強制打滾）。噴中眼睛的話視野會受到干擾。",
+    howTo: "聽到空氣中有聲響就先找掩體。如果牠抓住你了，隊友可以直接把牠砸飛。酸液本身也能傷害其他怪物，可以利用。",
+    funFact: "酸液射到別的怪物臉上也有效，有時候可以讓怪物互毆起來。",
+    tags: ["飛行", "遠程攻擊", "視野干擾"]
+  },
+  {
+    nameEn: "Peeper", nameZh: "眼球怪", tier: 1, emoji: "👁️",
+    desc: "黏在天花板上的一顆大眼球。牠不會主動追你，但只要你跟牠四目相交，牠就會讓你慢慢掉血。",
+    behavior: "靜止掛在天花板，等待玩家經過。一旦與玩家建立視線接觸就開始造成持續傷害，直到玩家移開視線為止。",
+    attack: "持續性視線傷害，每秒 2-10 點不等。如果你一直盯著牠，血量會滴到你開始慌亂。",
+    howTo: "不要看牠就沒事，就這麼簡單。過走廊時讓鏡頭朝下或側向，或者用手邊的物品把視線擋住。也可以翻滾直接撞上去消滅。",
+    funFact: "真的有隊友因為好奇盯著看超過十秒然後死掉。那是他活該。",
+    tags: ["天花板生物", "視線傷害", "靜止型"]
+  },
+  {
+    nameEn: "Apex Predator", nameZh: "頂點掠食者（偽裝鴨）", tier: 1, emoji: "🦆",
+    desc: "場地上有時候會看到一隻可愛的黃色小鴨。千萬不要碰。你一踩上去牠就會變成你見過最煩的追擊怪。",
+    behavior: "平時靜止不動，偽裝成普通的小橡皮鴨。玩家踩到或觸碰後，解除偽裝進入追擊模式，持續追逐 12 秒。",
+    attack: "接觸傷害，追擊時移速很快，碰到你就扣血。",
+    howTo: "廁所是天敵——把牠引過去用馬桶沖走。或者把牠踢進火焰中。最好的辦法是直接繞開不理牠。",
+    funFact: "牠的造型是純粹的橡皮鴨，沒有任何預警。遊戲的開發者就是想讓你慘叫。",
+    tags: ["偽裝", "觸發型", "追擊 12 秒"]
+  },
+  {
+    nameEn: "Shadow Child", nameZh: "影子小孩", tier: 1, emoji: "👦",
+    desc: "站在黑暗角落一動也不動的黑影小孩。你一直盯著牠看，牠就會開始充能然後把你拉過去。越詭異越危險就是牠的設計哲學。",
+    behavior: "靜止站在暗處，玩家注視牠時開始充能。充能完成後瞬間拉扯玩家，造成翻滾傷害。",
+    attack: "拉扯 + 翻滾傷害，被拉過去的瞬間你會失去控制並受到撞牆傷害。",
+    howTo: "看到黑影不要盯著看，直接繞過去。如果要消滅，可以從背後翻滾撞擊，或用物品砸牠。",
+    funFact: "牠站在那裡的姿勢每次都不一樣，偶爾會讓人以為是普通的環境裝飾。",
+    tags: ["靜止型", "視線觸發", "拉扯攻擊"]
+  },
+  {
+    nameEn: "Tick", nameZh: "寄生蟲", tier: 1, emoji: "🪲",
+    desc: "平時對你毫無威脅，但當你試著去搬任何東西的時候，牠會突然附在你身上慢慢吸掉你的整條血。你的手沒有空就是牠的機會。",
+    behavior: "被動巡邏，完全無視空手的玩家。但當玩家抬起或搬運物品時，會感知並附著上去開始吸血。",
+    attack: "吸血，可吸走最多 100 點血量，整個過程你很難直接甩掉牠。",
+    howTo: "放下手上的東西牠就會停止。可以把牠砸牆消滅，或用翻滾從背後撞。",
+    funFact: "牠知道你忙，所以選這個時機。開發者真的很懂人性。",
+    tags: ["被動型", "搬運觸發", "吸血"]
+  },
+  {
+    nameEn: "Bella", nameZh: "貝拉（三輪車鬼娃）", tier: 1, emoji: "🚲",
+    desc: "一個騎著紅色三輪車的鬼娃娃，速度比你想像的快，而且完全沒有「我是小孩應該可以放過牠」的選項。",
+    behavior: "騎車巡邏，速度中等。發現玩家後直接騎過來撞。可以被靠近，但太近會反手打你。",
+    attack: "接觸傷害 + 衝撞，傷害量中等。",
+    howTo: "武器直接打或扔手榴彈。麻醉槍可以暫時讓牠停下來。",
+    funFact: "牠騎三輪車的聲音在全場靜默時非常明顯，算是遊戲裡少數會給你聽覺警告的怪物。",
+    tags: ["巡邏型", "近戰衝撞", "有聲音警告"]
+  },
+  {
+    nameEn: "Birthday Boy", nameZh: "生日男孩", tier: 1, emoji: "🎈",
+    desc: "一個無頭小孩，手上拿著一大把彩色氣球。只要你不去戳那些氣球，牠根本不在乎你的存在。",
+    behavior: "完全被動，無視玩家。直到玩家射破或碰觸氣球後，才會進入攻擊模式。",
+    attack: "揮臂攻擊，沒有太高的傷害，但造成多次擊退。",
+    howTo: "繞開走就好，絕對不要打那些氣球。如果要消滅，在牠發動之前先打它幾下再跑。",
+    funFact: "很多玩家第一次看到牠會覺得可愛，然後下意識就去射氣球，接著被扁。這是個標準的遊戲陷阱。",
+    tags: ["被動型", "條件觸發", "低傷害"]
+  },
+  {
+    nameEn: "Elsa", nameZh: "艾爾莎（狗）", tier: 1, emoji: "🐕",
+    desc: "一隻紅眼白毛的狗。牠需要被定期撫摸，否則會覺得被遺棄然後對你發瘋。這個世界沒有公平。",
+    behavior: "平時在場地遊蕩。如果長時間沒有玩家互動（撫摸），會進入憤怒模式主動攻擊。",
+    attack: "撕咬攻擊，傷害中等，速度快。",
+    howTo: "定期靠近牠按互動鍵撫摸。或者直接武器處理，但要注意牠的速度。",
+    funFact: "大多數玩家第一次看到這個機制都是被牠突然發瘋嚇到。沒人告訴你要去摸狗。",
+    tags: ["需要互動", "忽視懲罰型", "中速追擊"]
+  },
+  {
+    nameEn: "Headgrab", nameZh: "抓頭怪", tier: 1, emoji: "🖐️",
+    desc: "一隻長得像放大版手掌的怪物。可以附著在死掉隊友的頭上，然後操控屍體高速衝過來攻擊你。",
+    behavior: "搜尋死亡玩家屍體，附著後讓屍體獲得加速並衝向其他玩家。單獨行動時速度較慢。",
+    attack: "衝撞傷害，附著屍體後傷害提升，但本體變得更脆弱。",
+    howTo: "遠程射擊或手榴彈最有效。如果隊友屍體被附著，先別急著復活，處理掉頭上的手怪再說。",
+    funFact: "被頭怪附著的隊友屍體會高速衝過來撞你，場面非常荒謬。",
+    tags: ["屍體利用", "衝撞型", "範圍攻擊"]
+  },
+  {
+    nameEn: "Bangers", nameZh: "爆炸骷髏頭", tier: 1, emoji: "💀",
+    desc: "頭上裝了炸藥的骷髏頭。三隻一組出現，發現你之後 15 秒內會爆炸。計時遊戲，非常刺激。",
+    behavior: "成群出現（3隻），發現玩家後進入倒計時，15 秒後爆炸，爆炸傷害和距離成反比。",
+    attack: "爆炸傷害，近距離幾乎秒殺，中距離仍有大量傷害。",
+    howTo: "把牠們撿起來扔進坑洞，或砸牆兩次消滅。千萬不要讓三隻同時爆炸在你旁邊。",
+    funFact: "有玩家把三顆都踢向同一個地方然後站在中間，全隊集體重生，這不是攻略是在找死。",
+    tags: ["成群（3隻）", "計時爆炸", "15秒計時"]
+  },
+  {
+    nameEn: "Rugrat", nameZh: "搗蛋鬼", tier: 1, emoji: "👶",
+    desc: "一個到處破壞你東西的小生物，會找到地圖上的物品然後朝你砸過來，還可以追蹤你的位置。",
+    behavior: "主動搜尋場地上的物品拿來當武器，找到目標後對準玩家投擲。可以感知玩家大致位置。",
+    attack: "投擲傷害，傷害量取決於牠拿到什麼東西。如果牠拿到你準備搬出去的寶物，那就是雙重悲劇。",
+    howTo: "先把高價值物品移走，讓牠沒東西可以丟。用坑洞可以把牠解決，或者多人合力圍毆。",
+    funFact: "牠有時候會拿到你的隊友扔掉的武器朝你砸，這在遊戲裡算是友善火力事故。",
+    tags: ["物品投擲", "追蹤型", "間接威脅"]
+  },
+  {
+    nameEn: "Heart Hugger", nameZh: "擁抱怪（植物）", tier: 1, emoji: "🌸",
+    desc: "一株粉紅色的植物型怪物，會噴出孢子造成傷害。外觀非常粉嫩，行為非常不粉嫩。",
+    behavior: "固定在地面，發現玩家後噴出粉紅色孢子雲，覆蓋一定範圍。",
+    attack: "孢子接觸傷害，持續在範圍內傷害玩家。",
+    howTo: "遠離噴射範圍，用武器遠程處理，或者把牠推入坑洞。",
+    funFact: "顏色設計故意做得很可愛，然後殺你。這是刻意的。",
+    tags: ["固定型", "範圍孢子", "視覺欺騙"]
+  },
+  {
+    nameEn: "Gambit", nameZh: "賭徒怪", tier: 1, emoji: "🎰",
+    desc: "一個坐著拿著輪盤的奇怪生物。跟牠互動會觸發隨機事件——可能給你錢，可能傷你，也可能治你，全看運氣。",
+    behavior: "靜止坐著等待互動，不主動攻擊。玩家接觸後觸發輪盤，結果隨機。",
+    attack: "傷害（輪盤結果之一），傷害量中等。其他結果為：給予金幣、恢復血量、什麼都不發生。",
+    howTo: "血多的時候可以賭一下，血少時不建議。傷害輸出本身不高，屬於風險可控的遊戲機制。",
+    funFact: "有玩家已知最佳策略是血量滿的時候一直找牠賭，偶爾真的能賺到一筆意外之財。",
+    tags: ["被動型", "隨機結果", "風險賭博"]
+  },
+  // ===== TIER 2 =====
+  {
+    nameEn: "Animal", nameZh: "畸形動物", tier: 2, emoji: "🐾",
+    desc: "醜陋的四足生物，移動時會隨機左右變向，讓你很難預測牠要往哪裡衝。通常兩三隻一起出現。",
+    behavior: "發現玩家後持續追擊，衝刺路徑隨機偏移，難以閃避。通常 2-3 隻一起出現增加混亂度。",
+    attack: "衝撞傷害，單次傷害低（約 2 點），但連續碰撞很快疊加。",
+    howTo: "跳到高處可以完全避開（牠無法攀爬）。或者計算好時機跳過牠的身體，手榴彈處理最乾淨。",
+    funFact: "單隻的傷害幾乎可以忽略，但三隻一起繞著你跑的話，你會在混亂中失去位置感然後全掛。",
+    tags: ["群體出沒", "隨機走位", "跳躍可躲"]
+  },
+  {
+    nameEn: "Bowtie", nameZh: "雪人吹風怪", tier: 2, emoji: "⛄",
+    desc: "穿著燕尾服的雪人造型怪物，發現你之後先對你猛吹 10 秒，然後直接逃跑。可以把吹力拿來對付其他怪物，這是牠最大的用途。",
+    behavior: "發現玩家後展開強力吹氣攻擊持續 10 秒，隨後進入逃離狀態離開房間。",
+    attack: "強力氣流，將玩家推走造成碰撞傷害。推力非常大，靠近牆壁時可能被撞成嚴重傷害。",
+    howTo: "遠離牆壁和坑洞，讓氣流推你到空曠處。可以利用牠的氣流推走其他怪物或珍貴物品（後者會讓你很後悔）。",
+    funFact: "有人故意讓這傢伙把怪物堆直接全部吹進坑洞，是高端玩法但風險很大。",
+    tags: ["範圍推力", "短暫攻擊", "可利用氣流"]
+  },
+  {
+    nameEn: "Chef", nameZh: "青蛙廚師", tier: 2, emoji: "🐸",
+    desc: "一個穿著廚師服、手持兩把大型肉刀的青蛙人。衝刺起來速度非常快，範圍也大，衝過的地方什麼都別想活著。",
+    behavior: "發現玩家後靠近，進入準備姿態約 1 秒後，以肉刀衝刺直線攻擊，持續約 4 秒。衝刺結束後有短暫硬直。",
+    attack: "肉刀揮砍，高傷害高速度，被撞到基本上是大量失血。",
+    howTo: "衝刺結束後的硬直是攻擊窗口。可以蹲下讓牠的刀揮過你頭頂。把牠引向坑洞讓牠自己衝進去是最省力的做法。",
+    funFact: "牠失去平衡跌倒的動畫非常搞笑，跟牠平時凶猛的表現形成強烈對比。",
+    tags: ["衝刺型", "高傷害", "硬直後反擊"]
+  },
+  {
+    nameEn: "Hidden", nameZh: "隱形怪", tier: 2, emoji: "👻",
+    desc: "完全透明的怪物，你只能靠牠呼吸的白霧和腳步聲判斷位置。發現你之後會突然現形把你拖走。",
+    behavior: "全程隱形巡邏，玩家只能通過白色呼吸霧和地板腳步聲感知其位置。鎖定玩家後瞬間現形並抓住玩家拖行。",
+    attack: "強力拖拽，將玩家拖過地板造成持續碰撞傷害，全程你幾乎無法自救。",
+    howTo: "注意觀察地板上的霧氣，保持距離。躲在桌子或物體下方（牠無法進入）。電擊槍和麻醉槍可以讓牠短暫減速現形。",
+    funFact: "被牠拖走的視角是遊戲中最驚慌的體驗之一，特別是全隊被牠輪流拖走的時候。",
+    tags: ["完全隱形", "拖拽攻擊", "聲音偵測"]
+  },
+  {
+    nameEn: "Mentalist", nameZh: "心靈術師（外星人）", tier: 2, emoji: "👽",
+    desc: "一個冥想狀態的外星人，發現你之後創造出反重力場，把你和周圍所有東西全部吸上半空，再讓你自由落體。",
+    behavior: "發現玩家後啟動 8-10 秒的反重力氣場，氣場半徑內的玩家和物品全部升空，計時結束後釋放讓所有東西砸到地板。",
+    attack: "兩段傷害：升空時碰到牆壁和天花板造成衝撞傷害，落地時造成摔落傷害。帶著寶物的話寶物也會摔碎。",
+    howTo: "在氣場範圍外保持安全。如果已經在氣場內，嘗試靠近牠接近地板降低落地傷害，或讓隊友遠端攻擊牠解除氣場。",
+    funFact: "牠啟動的時候連你手上的寶物都會一起飛上天再摔碎，玩家比寶物更讓人心疼。",
+    tags: ["反重力", "範圍控制", "兩段傷害"]
+  },
+  {
+    nameEn: "Upscream", nameZh: "尖叫蜘蛛", tier: 2, emoji: "🕷️",
+    desc: "衝向你之後對著臉大叫，強制讓你一直往後退，退的方向可能是坑洞、牆壁、或者其他怪物。",
+    behavior: "發現玩家後高速衝來，到達近距離後開始長時間尖叫，強制玩家向後移動並無法控制方向。",
+    attack: "尖叫傷害（中等），加上強制後退造成的環境二次傷害——退進牆、退進坑、退進其他怪。",
+    howTo: "在空曠地帶它的後退效果影響較小。兩人一起把它抬起來（舉重）後扔走是最有效的辦法。爬高是個好選擇。",
+    funFact: "最可怕的結局是被牠尖叫著推退進另一個 Tier 3 怪物的懷抱，這種事每天都在發生。",
+    tags: ["強制後退", "尖叫攻擊", "二次傷害"]
+  },
+  {
+    nameEn: "Oogly", nameZh: "天花板飛行怪", tier: 2, emoji: "🦇",
+    desc: "貼在天花板上飛行的奇怪生物，衝下來把你吊到半空中再讓你落地，整個過程你都在空中失控。",
+    behavior: "在天花板附近飛行，鎖定玩家後快速俯衝，用爪子將玩家拉到空中再釋放。",
+    attack: "抓取 + 墜落傷害，被拉上去然後摔下來，傷害量取決於高度。",
+    howTo: "躲在高度低的空間或桌子下方讓牠夠不到。遠程武器（槍、麻醉槍）效果最好。",
+    funFact: "在高天花板的房間遇到這傢伙，你有時候會飛得比建築物一半還高，落下來的瞬間非常震撼。",
+    tags: ["空中攻擊", "天花板生物", "高度傷害"]
+  },
+  {
+    nameEn: "Cleanup Crew", nameZh: "清潔工怪", tier: 2, emoji: "🧹",
+    desc: "長得像肉塊的怪物，主要攻擊方式是把自己的頭扔向你，然後頭在你旁邊爆炸。是個很有創意的自殘式攻擊。",
+    behavior: "發現玩家後抬起自己的頭部，瞄準後投擲，頭部飛行一段距離後在目標附近爆炸，然後慢慢走過去撿回自己的頭。",
+    attack: "頭部爆炸，範圍傷害中等到高等，附近玩家全部受到傷害。",
+    howTo: "看到牠舉起頭就立刻橫向閃避跑開，爆炸範圍是圓形。躲牆角或柱子後面可以擋住爆炸。",
+    funFact: "牠撿回自己頭的動作非常認真，速度也不快，這段時間是你的反擊機會。",
+    tags: ["遠程爆炸", "範圍傷害", "投擲型"]
+  },
+  // ===== TIER 3 =====
+  {
+    nameEn: "Clown", nameZh: "小丑", tier: 3, emoji: "🤡",
+    desc: "遊戲裡最讓人血壓上升的怪物之一。發射橫掃型雷射，單次 100 傷害，你只要被掃到一次就知道什麼叫做「實質死亡」。",
+    behavior: "發現玩家後從左向右發射水平掃射雷射，射程覆蓋整個房間。雷射冷卻期間會改用踢擊。8 秒冷卻。",
+    attack: "雷射掃射（100 傷害），踢擊（60 傷害）。雷射是即時的，沒有預測性彈道，你要提前蹲下才能躲。",
+    howTo: "早一點蹲下，雷射的高度固定在腰部。靠得很近的時候雷射反而射不到你。發現牠之後不要站著思考，先蹲。",
+    funFact: "第一次遇到小丑然後全隊被一次掃射團滅是幾乎所有 REPO 玩家都經歷過的成年禮。",
+    tags: ["雷射掃射", "100傷害", "需蹲下躲避"]
+  },
+  {
+    nameEn: "Headman", nameZh: "飛行大頭", tier: 3, emoji: "🗿",
+    desc: "一顆巨大的浮空頭顱，速度極快，直接朝你嘴巴張大飛過來咬住你的頭。可以把你撞到高處，也可以直接把你吞進嘴裡。",
+    behavior: "快速飛行追逐，鎖定玩家後高速衝過來直接咬擊，可以把玩家推到高處或困住。速度是所有 Tier 3 怪物中最快的。",
+    attack: "咬擊傷害，高傷害，可造成玩家被推離原地或失去控制。",
+    howTo: "轉角是最好的護盾，繞柱子跑。翻滾方向要和牠的飛行路線垂直。正面對抗基本上是輸的，能跑就跑。",
+    funFact: "牠追你的速度加上張開的大嘴在鏡頭裡的視覺效果，是遊戲中最容易讓人驚叫的時刻之一。",
+    tags: ["超高速", "咬擊", "空中追蹤"]
+  },
+  {
+    nameEn: "Huntsman", nameZh: "獵人", tier: 3, emoji: "🏹",
+    desc: "眼睛是瞎的，但耳朵靈敏到可以精確定位你。任何一點聲音——腳步聲、翻滾聲、說話聲——牠都會立刻射擊。",
+    behavior: "完全依靠聽覺偵測，視覺為零。任何聲音都會讓牠鎖定並連射四次，隨後短暫冷卻。在安靜環境下無法偵測玩家。",
+    attack: "射擊（100 傷害/發），連射四發，中一發就有嚴重威脅。",
+    howTo: "蹲行是關鍵——蹲走時腳步聲大幅降低。不要在牠附近翻滾，翻滾聲很大。用物品扔到另一個方向製造噪音轉移注意力。",
+    funFact: "有隊友在牠附近說話聲音太大被射死的案例，這不是笑話，遊戲真的有語音偵測距離的設計。",
+    tags: ["聽覺偵測", "100傷害", "需要靜默移動"]
+  },
+  {
+    nameEn: "Reaper", nameZh: "死神", tier: 3, emoji: "💀",
+    desc: "跟獵人完全相反——牠是聾的，但視力極好。你只要讓牠看到你就完了，但蹲著慢慢繞後面是完全安全的。",
+    behavior: "完全聾，無法感知聲音。但視覺極靈敏，任何在視野內的移動都會觸發追擊。裂縫下方也能攻擊到。",
+    attack: "快速斬擊，低單次傷害但攻擊頻率高，幾次命中就是嚴重失血。",
+    howTo: "從後方繞過去，蹲行保持低速。確認牠的視野範圍後從盲角接近。地板物體下方可以躲避，但注意牠可以攻擊比自己低的目標。",
+    funFact: "它和獵人在同一房間是最噩夢的組合——一個靠聽，一個靠看，幾乎沒有安全移動的方式。",
+    tags: ["視覺偵測", "完全失聽", "高頻率攻擊"]
+  },
+  {
+    nameEn: "Robe", nameZh: "黑袍怪", tier: 3, emoji: "🦹",
+    desc: "穿著黑袍、白色空洞臉孔的怪物，移動完全無聲。你只要跟牠對到眼，牠就會加速衝向你，爪擊傷害100點起。",
+    behavior: "無聲追蹤，被玩家注視時會加速移動，可以攻擊高於自己位置的玩家（例如站在高台上也不安全）。",
+    attack: "爪擊（100傷害），被牠追上之後的傷害非常可觀。",
+    howTo: "不要直視牠，背對它移動反而更安全。用大型物品擋在自己和牠之間推著走。膠帶炸彈效果不錯。",
+    funFact: "牠的白色臉孔在黑暗中非常顯眼，但聰明的玩家已經學會「看到白臉就把視線轉開」這個反直覺的操作。",
+    tags: ["無聲追蹤", "100傷害", "視線觸發加速"]
+  },
+  {
+    nameEn: "Trudge", nameZh: "重擊怪", tier: 3, emoji: "🦍",
+    desc: "移動速度很慢的大型黑紅色怪物。別被牠的遲鈍騙了，一旦牠砸中你，你會被直接拋飛到場地另一端。",
+    behavior: "緩慢巡邏，追擊速度也很慢。但攻擊動作有強力的擊飛效果，同時會趴下來咬。",
+    attack: "地面砸擊（20點 + 100點碰撞傷害），趴咬（30-100點）。傷害範圍廣，單次攻擊可能造成巨大傷害。",
+    howTo: "蹲著完全靜止它就不會發現你（牠幾乎全靠動作偵測）。利用地形讓它砸空，在硬直時繞開。",
+    funFact: "被砸飛然後撞牆的拋物線飛行動畫很長，有足夠的時間讓你反省哪裡做錯了。",
+    tags: ["低速高傷害", "擊飛效果", "動作偵測"]
+  },
+  {
+    nameEn: "Loom", nameZh: "盧姆（最高威脅）", tier: 3, emoji: "🕯️",
+    desc: "遊戲裡公認最可怕的怪物。幾乎無聲接近，用骨手輪流拍你，每次拍擊都是大範圍傷害，而且牠通常在你察覺之前就已經在你背後了。",
+    behavior: "移動幾乎無聲，速度中等。接觸玩家後交替舉起骨手拍擊地板，範圍傷害波及附近所有玩家。持續追蹤目標。",
+    attack: "手掌拍擊（100點範圍傷害），覆蓋拍擊點周圍約 3-4 公尺，任何在範圍內的人都受傷。",
+    howTo: "保持移動，不要站在原地。牠的攻擊是固定點範圍，你動得快它就追不上。躲避優先，不建議正面對抗。",
+    funFact: "Loom 的死亡事故通常是這樣的：玩家搬著貴重物品走路變慢，沒察覺牠靠近，被一拍直接爆了。",
+    tags: ["幾乎無聲", "範圍拍擊", "持續追蹤"]
+  }
+];
+
+const items = [
+  // 升級
+  { cat: "upgrade", nameZh: "生命值升級", nameEn: "Health Upgrade", price: "$5K起（指數成長）", emoji: "❤️",
+    desc: "每次升級增加最大生命值 20%。早期性價比最高的升級，血量厚了之後不容易一擊被秒。",
+    stats: [{ k: "效果", v: "+20% 最大HP" }, { k: "提示", v: "全隊優先買頭幾級" }] },
+  { cat: "upgrade", nameZh: "力量升級", nameEn: "Strength Upgrade", price: "$6K起（指數成長）", emoji: "💪",
+    desc: "增加 10% 舉重力量，讓你可以搬更重的物品或搬得更穩。後期大型寶物必備。",
+    stats: [{ k: "效果", v: "+10% 搬運力" }, { k: "提示", v: "搬大型寶物前買" }] },
+  { cat: "upgrade", nameZh: "抓取距離升級", nameEn: "Range Upgrade", price: "$6K起", emoji: "🤲",
+    desc: "增加 30% 物品拾取距離，讓你不需要靠那麼近就能抓到東西——特別是在逃跑時這差距非常明顯。",
+    stats: [{ k: "效果", v: "+30% 拾取距離" }] },
+  { cat: "upgrade", nameZh: "衝刺速度升級", nameEn: "Sprint Speed Upgrade", price: "$6K-12K", emoji: "👟",
+    desc: "增加 20% 衝刺速度，逃命時的核心升級。遇到 Huntsman 或 Loom 之後你就知道這有多重要。",
+    stats: [{ k: "效果", v: "+20% 衝刺速度" }] },
+  { cat: "upgrade", nameZh: "耐力升級", nameEn: "Stamina Upgrade", price: "$2K起", emoji: "🔋",
+    desc: "增加 10 點最大耐力值，讓你能跑更久。價格便宜，很划算。",
+    stats: [{ k: "效果", v: "+10 最大耐力" }] },
+  { cat: "upgrade", nameZh: "二段跳", nameEn: "Double Jump", price: "$10K起", emoji: "🦘",
+    desc: "空中還可以再跳一次，大幅提升機動性。躲 Tier 1 Animal 和翻越障礙都非常有用。",
+    stats: [{ k: "效果", v: "空中第二次跳躍" }] },
+  { cat: "upgrade", nameZh: "翻滾距離升級", nameEn: "Tumble Launch", price: "$4K起", emoji: "🔄",
+    desc: "讓翻滾（Tumble）的距離和速度增加，逃跑和繞怪的核心輔助升級。",
+    stats: [{ k: "效果", v: "+翻滾距離與速度" }] },
+  { cat: "upgrade", nameZh: "滑翔翅膀", nameEn: "Tumble Wings", price: "$4K起", emoji: "🦅",
+    desc: "翻滾時可以在空中滑翔，降落速度變慢，高樓層的場景非常有用。",
+    stats: [{ k: "效果", v: "翻滾時空中滑行" }] },
+  // 醫療
+  { cat: "health", nameZh: "小血包", nameEn: "Small Health Pack", price: "$3-6K", emoji: "🩹",
+    desc: "恢復 25 HP，最便宜的回血選項。血量差一點的時候頂用。",
+    stats: [{ k: "回復", v: "25 HP" }] },
+  { cat: "health", nameZh: "中血包", nameEn: "Medium Health Pack", price: "$6-11K", emoji: "💊",
+    desc: "恢復 50 HP，標準選擇，性價比居中。",
+    stats: [{ k: "回復", v: "50 HP" }] },
+  { cat: "health", nameZh: "大血包", nameEn: "Large Health Pack", price: "$9-16K", emoji: "🏥",
+    desc: "恢復 100 HP，基本上從鬼門關回來一條命。在硬關卡開始前買一個備著。",
+    stats: [{ k: "回復", v: "100 HP" }] },
+  // 武器
+  { cat: "weapon", nameZh: "棒球棒", nameEn: "Baseball Bat", price: "$25-29K", emoji: "🏏",
+    desc: "平衡的近戰武器，揮速快，擊退效果好，打暈中型怪物。10次揮擊，性價比高的入門武器。",
+    stats: [{ k: "傷害", v: "20" }, { k: "揮擊次數", v: "10次" }, { k: "效果", v: "擊退+暈眩" }] },
+  { cat: "weapon", nameZh: "煎鍋", nameEn: "Frying Pan", price: "$17-30K", emoji: "🍳",
+    desc: "15次揮擊，傷害比棒球棒略低，但揮擊次數多一些。真的就是一口鍋，很符合 REPO 的風格。",
+    stats: [{ k: "傷害", v: "18" }, { k: "揮擊次數", v: "15次" }] },
+  { cat: "weapon", nameZh: "大錘", nameEn: "Sledge Hammer", price: "$40-47K", emoji: "🔨",
+    desc: "最高近戰傷害，單擊 150 點，但揮動緩慢。對大型怪物非常有效，但在混亂中很難命中。",
+    stats: [{ k: "傷害", v: "150" }, { k: "揮擊次數", v: "10次" }] },
+  { cat: "weapon", nameZh: "劍", nameEn: "Sword", price: "~$25K", emoji: "⚔️",
+    desc: "中等傷害，15次揮擊，刺擊範圍比棒球棒稍遠，整體是均衡的中期武器。",
+    stats: [{ k: "傷害", v: "50" }, { k: "揮擊次數", v: "15次" }] },
+  { cat: "weapon", nameZh: "充氣錘", nameEn: "Inflatable Hammer", price: "~$9K", emoji: "🔔",
+    desc: "傷害幾乎可以忽略（5點），主要靠 5% 機率爆炸特效推走怪物。最便宜的武器，偶爾出奇制勝。",
+    stats: [{ k: "傷害", v: "5 / 爆炸250" }, { k: "揮擊次數", v: "20次" }, { k: "特效", v: "5% 爆炸機率" }] },
+  { cat: "weapon", nameZh: "電棒", nameEn: "Prodzap", price: "~$30K", emoji: "⚡",
+    desc: "16發電擊，每發造成 5 點傷害並讓目標眩暈 3 秒。眩暈效果非常實用，可以打斷幾乎所有怪物的攻擊動作。",
+    stats: [{ k: "傷害", v: "5 / 爆炸250" }, { k: "彈數", v: "16發" }, { k: "效果", v: "眩暈 3秒" }] },
+  { cat: "weapon", nameZh: "手槍", nameEn: "Gun", price: "~$47K", emoji: "🔫",
+    desc: "標準槍械，6發，對怪物 80 傷害，對玩家 100 傷害（別射隊友）。中型怪物有暈眩效果。",
+    stats: [{ k: "傷害", v: "80 (怪) / 100 (人)" }, { k: "彈數", v: "6發" }] },
+  { cat: "weapon", nameZh: "霰彈槍", nameEn: "Shotgun", price: "~$91K", emoji: "💥",
+    desc: "5發，近距離 300 傷害（6顆彈丸各50），但後座力極大。遠距離幾乎無效，近戰解決 Tier 3 怪物最可靠的工具。",
+    stats: [{ k: "傷害", v: "300 近距 (6×50)" }, { k: "彈數", v: "5發" }] },
+  { cat: "weapon", nameZh: "麻醉槍", nameEn: "Tranquilizer Gun", price: "~$16K", emoji: "😴",
+    desc: "8發，傷害為零，但中了的怪物會直接睡覺約 18 秒。很多 Tier 2-3 怪物的最佳應對工具。",
+    stats: [{ k: "傷害", v: "0" }, { k: "彈數", v: "8發" }, { k: "效果", v: "暈睡 ~18秒" }] },
+  { cat: "weapon", nameZh: "閃電槍", nameEn: "Boltzap", price: "~$16K", emoji: "🌩️",
+    desc: "20發，每發 4×2 傷害，1.5秒暈眩。低傷害但暈眩頻率高，壓制小怪很有效。",
+    stats: [{ k: "傷害", v: "8 (4×2)" }, { k: "彈數", v: "20發" }, { k: "效果", v: "暈眩 1.5秒" }] },
+  { cat: "weapon", nameZh: "脈衝手槍", nameEn: "Pulse Pistol", price: "~$16K", emoji: "🔵",
+    desc: "12發，25傷害，高擊退力。把小怪推進坑洞的最佳工具之一，輕鬆又不需要殺死牠們。",
+    stats: [{ k: "傷害", v: "25" }, { k: "彈數", v: "12發" }, { k: "效果", v: "高擊退力" }] },
+  { cat: "weapon", nameZh: "光子炮", nameEn: "Photon Blaster", price: "$39-48K", emoji: "🔴",
+    desc: "5發，雷射持續攻擊模式，全彈擊中可達 270 傷害。需要鎖定一個方向，但傷害驚人。",
+    stats: [{ k: "傷害", v: "270 (全彈命中)" }, { k: "彈數", v: "5發" }] },
+  // 爆炸物
+  { cat: "explosive", nameZh: "手榴彈", nameEn: "Grenade", price: "~$3K", emoji: "💣",
+    desc: "標準爆炸，10公尺範圍，對怪物 160 傷害，對玩家 75 傷害。最基本也最通用的攻擊工具。",
+    stats: [{ k: "傷害(怪)", v: "160" }, { k: "傷害(人)", v: "75" }, { k: "範圍", v: "10m" }] },
+  { cat: "explosive", nameZh: "電擊手榴彈", nameEn: "Shock Grenade", price: "~$2K", emoji: "⚡",
+    desc: "30公尺大範圍，傷害為零，但範圍內所有東西都會被電暈。對付群怪的最佳選擇，也可以控場。",
+    stats: [{ k: "傷害", v: "0" }, { k: "範圍", v: "30m" }, { k: "效果", v: "電暈" }] },
+  { cat: "explosive", nameZh: "眩暈手榴彈", nameEn: "Stun Grenade", price: "~$2K", emoji: "🌟",
+    desc: "與電擊手榴彈類似，30公尺純暈眩，無傷害。讓隊友有空間撤退或搬寶物的好工具。",
+    stats: [{ k: "傷害", v: "0" }, { k: "範圍", v: "30m" }, { k: "效果", v: "純暈眩" }] },
+  { cat: "explosive", nameZh: "膠帶炸彈", nameEn: "Duct Taped Grenade", price: "~$2K", emoji: "💥",
+    desc: "先爆一次 400 傷害，隨後分裂出數顆人形手榴彈繼續爆炸，總傷害極高，是場面混亂的象徵。",
+    stats: [{ k: "主爆傷害", v: "400" }, { k: "後續", v: "多顆人形手榴彈" }] },
+  { cat: "explosive", nameZh: "橡皮鴨（炸彈）", nameEn: "Rubber Duck", price: "$16-20K", emoji: "🦆",
+    desc: "在地板上彈跳直到撞到東西，10% 機率爆炸，傷害 50。看起來像玩具但別掉以輕心，有時候會反彈回來炸自己。",
+    stats: [{ k: "傷害", v: "50" }, { k: "爆炸機率", v: "10%" }] },
+  { cat: "explosive", nameZh: "衝擊波地雷", nameEn: "Shockwave Mine", price: "~$3K", emoji: "🔆",
+    desc: "放在地上，踩到觸發 5 秒暈眩，無傷害，30 公尺範圍。布防型工具，拖延怪物效果很好。",
+    stats: [{ k: "傷害", v: "25" }, { k: "效果", v: "暈眩 5秒" }] },
+  { cat: "explosive", nameZh: "爆炸地雷", nameEn: "Explosive Mine", price: "~$3K", emoji: "💀",
+    desc: "接觸引爆，20 公尺範圍，200 傷害。啟動需要 5 秒延遲，放好位置後退是正確用法。",
+    stats: [{ k: "傷害(怪)", v: "200" }, { k: "傷害(人)", v: "75" }, { k: "啟動延遲", v: "5秒" }] },
+  // 無人機
+  { cat: "drone", nameZh: "充電無人機", nameEn: "Recharge Drone", price: "$4-5K", emoji: "🔋",
+    desc: "附著在可充電物品上，每秒補充 5 格電量。麻醉槍和電棒的好搭檔，讓武器不缺電。",
+    stats: [{ k: "功能", v: "每秒+5格電" }] },
+  { cat: "drone", nameZh: "堅不可摧無人機", nameEn: "Indestructible Drone", price: "$23-30K", emoji: "🛡️",
+    desc: "附著在任何物品上，讓那件物品完全無法損壞。用在最貴的寶物上，防止隊友手滑砸碎它。",
+    stats: [{ k: "功能", v: "物品無敵" }] },
+  { cat: "drone", nameZh: "翻滾無人機", nameEn: "Roll Drone", price: "$9-11K", emoji: "🌀",
+    desc: "附著後讓目標翻滾距離和速度大幅提升，也可以附在怪物身上讓牠被彈飛。後者非常好笑。",
+    stats: [{ k: "功能", v: "翻滾強化 / 可附在怪物" }] },
+  { cat: "drone", nameZh: "羽毛無人機", nameEn: "Feather Drone", price: "$15-18K", emoji: "🪶",
+    desc: "讓附著的物品（或玩家）跳躍更高、重量更輕。對搬運大型寶物很有幫助，因為可以把寶物舉得更穩。",
+    stats: [{ k: "功能", v: "增加跳躍 + 減輕重量" }] },
+  { cat: "drone", nameZh: "零重力無人機", nameEn: "Zero Gravity Drone", price: "$25K起", emoji: "🛸",
+    desc: "讓附著的物體懸浮，周圍物品和怪物也受重力影響。處理難以搬運的大型物件或清場時的頂級工具。",
+    stats: [{ k: "功能", v: "目標懸浮 + 範圍反重力" }] },
+  // 工具
+  { cat: "utility", nameZh: "零重力球", nameEn: "Zero Gravity Orb", price: "$42-43K", emoji: "🌐",
+    desc: "投擲後在落點創造反重力場，範圍內所有東西都升空。可以同時清空多個怪物，也可以讓寶物懸浮方便搬運。",
+    stats: [{ k: "功能", v: "範圍反重力場" }] },
+  { cat: "utility", nameZh: "可折疊橋", nameEn: "Phase Bridge", price: "$20K", emoji: "🌉",
+    desc: "放下後展開成一座可以走的橋，連接兩個平台或跨越坑洞。特定地圖非常有用。",
+    stats: [{ k: "功能", v: "跨越坑洞或落差" }] },
+  { cat: "utility", nameZh: "寶物探測器", nameEn: "Valuable Detector", price: "$15-18K", emoji: "📡",
+    desc: "指向最近的未發現寶物，節省大量找寶物的時間，特別是在大地圖或複雜建築中。",
+    stats: [{ k: "功能", v: "指引最近未找到的寶物" }] },
+  { cat: "utility", nameZh: "撤離探測器", nameEn: "Extraction Detector", price: "$8-17K", emoji: "🧭",
+    desc: "指向最近的撤離點，在地圖複雜或搬著東西找不到出口時救了很多人的命。",
+    stats: [{ k: "功能", v: "指引最近撤離點" }] },
+  { cat: "utility", nameZh: "能量晶體", nameEn: "Energy Crystal", price: "$7-9K/個", emoji: "🔮",
+    desc: "為電子裝備補充 5 格能量。每顆都是消耗品，帶幾顆備著就不怕武器沒電。",
+    stats: [{ k: "功能", v: "補充 5 格能量" }] },
+  { cat: "utility", nameZh: "鴨子桶", nameEn: "Duck Bucket", price: "$5-8K", emoji: "🪣",
+    desc: "戴上之後對橡皮鴨免疫，也可以當成移動式掩體鑽進去躲。非常有個性的防禦工具。",
+    stats: [{ k: "功能", v: "對鴨系怪物免疫 + 臨時掩體" }] },
+  // 購物車
+  { cat: "cart", nameZh: "口袋購物車", nameEn: "Pocket C.A.R.T.", price: "$14-18K", emoji: "🛒",
+    desc: "放進背包口袋就可以帶著走的小型購物車，裝小型寶物用。不占手讓你搬貨效率大提升。",
+    stats: [{ k: "功能", v: "小型寶物運輸 (背包放置)" }] },
+  { cat: "cart", nameZh: "標準購物車", nameEn: "C.A.R.T.", price: "$39-48K", emoji: "🚜",
+    desc: "標準大型購物車，可以裝下數個中大型寶物。組隊搬大量物品的核心工具。",
+    stats: [{ k: "功能", v: "中大型寶物運輸" }] },
+  { cat: "cart", nameZh: "購物車炮", nameEn: "C.A.R.T. Cannon", price: "~$26K", emoji: "🚀",
+    desc: "在購物車上裝大炮，5發，每發 500 傷害。純破壞力工具，但要注意後座力會讓購物車亂撞。",
+    stats: [{ k: "傷害", v: "500" }, { k: "彈數", v: "5發" }] },
+  { cat: "cart", nameZh: "購物車雷射", nameEn: "C.A.R.T. Laser", price: "~$26K", emoji: "🔴",
+    desc: "購物車版本的雷射炮，5發，800傷害，比炮準確但射程有限制。",
+    stats: [{ k: "傷害", v: "800" }, { k: "彈數", v: "5發" }] },
+  // ===== 載具（v0.4.0 新增）=====
+  { cat: "vehicle", nameZh: "偵察機車", nameEn: "Scout", price: "$18-24K", emoji: "🏍️",
+    desc: "v0.4.0 造型更新新增的輕型機車，又叫 Scoutscooter。沒有儲物格，純粹就是讓你在地圖上飆快的。速度比大多數怪物快，用來偵察前方、吸引怪物注意、或是帶著隊友逃跑都很有效。體力比 Hauler 少，撞太多東西容易壞。",
+    stats: [{ k: "價格", v: "$18-24K" }, { k: "儲物", v: "無" }, { k: "特性", v: "最高速度，輕量" }] },
+  { cat: "vehicle", nameZh: "運載機車", nameEn: "Hauler", price: "$38-48K", emoji: "🚗",
+    desc: "v0.4.0 造型更新新增的重型機車，又叫 Cargoscooter。後座有儲物格，最多可以裝到總價值 $20K 的小型寶物。可以直接把整輛車推進提取點結算，不需要手動搬。體力比 Scout 多三分之一，但 HP 歸零後會爆炸，造成 100 點傷害，自己也可能一起死。",
+    stats: [{ k: "價格", v: "$38-48K" }, { k: "儲物格", v: "最多 $20K" }, { k: "HP", v: "Scout 的 1.33倍" }, { k: "爆炸傷害", v: "100" }] },
+];
+
+const valuables = [
+  // 普通
+  { nameZh: "鑽石", nameEn: "Diamond", price: "$2,000-3,000", emoji: "💎",
+    desc: "高光澤晶體，易碎。搬運時動作要輕，隊友翻滾的時候離它遠一點。", trap: null },
+  { nameZh: "金錢（鈔票束）", nameEn: "Money Bundle", price: "$500-650", emoji: "💵",
+    desc: "一捆鈔票，沒什麼特別，搬就對了。", trap: null },
+  { nameZh: "翡翠手鐲", nameEn: "Jade Bracelet", price: "$500-650", emoji: "💚",
+    desc: "精緻的翡翠飾品，小心別砸破。", trap: null },
+  { nameZh: "高腳杯", nameEn: "Goblet", price: "$500-650", emoji: "🏆",
+    desc: "貴族用的金屬杯，中等易碎性。", trap: null },
+  { nameZh: "皇冠", nameEn: "Crown", price: "$500-650", emoji: "👑",
+    desc: "閃亮的皇冠，戴上去也沒用，賣掉比較值錢。", trap: null },
+  { nameZh: "洋娃娃", nameEn: "Doll", price: "$500-650", emoji: "🪆",
+    desc: "瓷製娃娃，非常易碎。看到之前就想好搬出去的路線。", trap: null },
+  { nameZh: "懷錶", nameEn: "Pocket Watch", price: "$500-650", emoji: "⏱️",
+    desc: "古典懷錶，適當耐摔。", trap: null },
+  { nameZh: "鈾製馬克杯", nameEn: "Uranium Mug", price: "$1,200-2,000", emoji: "☢️",
+    desc: "發著幽幽綠光的馬克杯。別問它為什麼有輻射，就把它賣掉。", trap: null },
+  { nameZh: "發條青蛙", nameEn: "Wind-up Frog", price: "$850-1,100", emoji: "🐸",
+    desc: "每次它自己跳一下，價值就掉一點。把它放在你的背包裡不要讓它動。", trap: "每次跳躍扣除價值" },
+  { nameZh: "寶石盒", nameEn: "Gem Box", price: "$850-1,100", emoji: "📦",
+    desc: "一盒珠寶，整體耐摔，放心搬。", trap: null },
+  { nameZh: "花瓶（小）", nameEn: "Vase (Small)", price: "$1,200-2,000", emoji: "🏺",
+    desc: "陶瓷花瓶，非常易碎。一個隊友翻滾過來就可能報廢。", trap: null },
+  { nameZh: "花瓶（大）", nameEn: "Vase (Large)", price: "$2,000-3,000", emoji: "🫙",
+    desc: "大型陶瓷花瓶，更貴但也更重，兩個人一起搬比較安全。", trap: null },
+  { nameZh: "瓶中船", nameEn: "Ship in a Bottle", price: "$3,500-4,500", emoji: "⛵",
+    desc: "老式模型，半易碎，慢慢搬有驚無險。", trap: null },
+  { nameZh: "收音機", nameEn: "Radio", price: "$2,000-3,000", emoji: "📻",
+    desc: "古老收音機，耐摔，中規中矩的寶物。", trap: null },
+  { nameZh: "獎盃", nameEn: "Trophy", price: "$2,000-3,000", emoji: "🏆",
+    desc: "金屬材質，不容易壞，搬運的標準選擇。", trap: null },
+  { nameZh: "留聲機", nameEn: "Gramophone", price: "$2,000-3,000", emoji: "📯",
+    desc: "骨董留聲機，體積偏大，一個人搬有點吃力。", trap: null },
+  // 陷阱類
+  { nameZh: "音樂盒", nameEn: "Music Box", price: "$3,500-4,500", emoji: "🎵",
+    desc: "看起來很可愛的骨董音樂盒，但打開蓋子之後會讓你強制轉圈圈，整個人像陀螺一樣完全失控。",
+    trap: "開蓋後強制旋轉，移動完全失控" },
+  { nameZh: "尖叫娃娃", nameEn: "Scream Doll", price: "$5,500-7,500", emoji: "😱",
+    desc: "表情猙獰的娃娃，被碰觸之後會發出尖叫聲並開始自動追你。可以成功搬出去但它一路都在叫。",
+    trap: "被碰觸後尖叫並追逐持有者" },
+  { nameZh: "玩具猴子", nameEn: "Toy Monkey", price: "$850-1,100", emoji: "🐵",
+    desc: "戴著帽子敲鈸的玩具猴，當它開始敲的時候，約幾秒後就會爆炸。搬快一點，或者不要讓它開始敲。",
+    trap: "敲鈸聲後爆炸" },
+  { nameZh: "愛情藥水", nameEn: "Love Potion", price: "$2,000-3,000", emoji: "💘",
+    desc: "觸碰後會強制讓你在全隊語音聊天或文字中輸出各種「深情告白」內容，非常尷尬，非常值。",
+    trap: "觸碰後強制輸出尷尬告白" },
+  { nameZh: "爆炸桶", nameEn: "Explosive Barrel", price: "免費爆炸", emoji: "🛢️",
+    desc: "不值錢，但可以爆炸。有時候有創意地用它可以把怪物炸飛。不建議把它搬上購物車。",
+    trap: "受到撞擊後爆炸" },
+  { nameZh: "發光沙漏", nameEn: "Glowing Hourglass", price: "$7,100", emoji: "⏳",
+    desc: "碰觸後讓你的移動速度大幅降低，聲音也會變成低沉的慢動作音效。在怪物追你的時候這個效果格外致命。",
+    trap: "減緩移動速度 + 改變語音" },
+  { nameZh: "小丑玩具", nameEn: "Clown Toy", price: "$2,400", emoji: "🎪",
+    desc: "按鼻子三次後爆炸。你覺得按兩次沒事，第三次你就後悔了。",
+    trap: "按鼻子3次後爆炸" },
+  { nameZh: "火焰槍（損壞品）", nameEn: "Broken Flamethrower", price: "變動", emoji: "🔥",
+    desc: "壞掉的火焰槍，損壞到一定程度後會開始噴火。拿著它快跑是標準做法，慢了就烤焦。",
+    trap: "損壞時噴射火焰" },
+  // 高價稀有
+  { nameZh: "動物箱籠", nameEn: "Animal Crate", price: "$18,000-25,000", emoji: "🦁",
+    desc: "大型金屬箱籠，必須保持直立，傾斜太多會讓裡面的東西暴動。需要多人一起扶著搬，是真正的團隊挑戰。",
+    trap: "傾斜時箱內生物暴動" },
+  { nameZh: "恐龍化石", nameEn: "Dinosaur Fossil", price: "$18,000-25,000", emoji: "🦕",
+    desc: "博物館等級的化石，體積超大，至少需要兩個人搬，中間還不能讓它碰牆。非常考驗隊伍協調。",
+    trap: null },
+  { nameZh: "鋼琴", nameEn: "Piano", price: "$30,000-45,000", emoji: "🎹",
+    desc: "遊戲裡最貴的寶物之一，也是最重的。全隊四個人一起搬都不一定夠，經常需要購物車協助。一旦成功搬出去，那一關的獎金問題直接解決。",
+    trap: null },
+  { nameZh: "豎琴", nameEn: "Harp", price: "$18,000-25,000", emoji: "🎸",
+    desc: "大型弦樂器，細長容易碰到門框。需要計算好路線才能搬出去。",
+    trap: null },
+  { nameZh: "油畫", nameEn: "Oil Painting", price: "$18,000-25,000", emoji: "🖼️",
+    desc: "古典畫作，正確的搬法是直立持著走，水平擺放更容易磨損掉價。",
+    trap: null },
+  { nameZh: "黃金雕像", nameEn: "Gold Statue", price: "$18,000-25,000", emoji: "🗿",
+    desc: "純金的塑像，重量不輕，但耐摔性比藝術品好一些。安全搬出去的機率相對高。",
+    trap: null },
+  { nameZh: "座鐘", nameEn: "Grandfather Clock", price: "$18,000-25,000", emoji: "🕰️",
+    desc: "每整點會自動報時，發出洪亮鐘聲。附近有 Huntsman 的時候讓它報時等同於自殺。",
+    trap: "整點報時，吸引怪物注意" },
+  { nameZh: "鄧高夫的法杖", nameEn: "Dunhöff's Staff", price: "$18,000-25,000", emoji: "🪄",
+    desc: "神秘魔法法杖，完好無損時很值錢，但損壞之後會開始隨機向四方射出雷射光束，場面非常危險。",
+    trap: "損壞後隨機射出雷射" },
+  { nameZh: "知識立方", nameEn: "Cube of Knowledge", price: "$9,500-12,000", emoji: "🔲",
+    desc: "據說包含禁忌知識的神秘正方體，搬出去賣掉是正確選擇，不要問裡面有什麼。",
+    trap: null },
+];
+
+// ===================== 狀態 =====================
+let currentSection = 'monsters';
+let currentTier = 'all';
+let searchQuery = '';
+
+// ===================== 渲染 =====================
+
+function tierLabel(t) {
+  if (t === 1) return '<span class="tier-badge tier-1">危險等級 1</span>';
+  if (t === 2) return '<span class="tier-badge tier-2">危險等級 2</span>';
+  if (t === 3) return '<span class="tier-badge tier-3">危險等級 3</span>';
+  return '';
+}
+
+function catLabel(c) {
+  const map = {
+    weapon: ['武器', 'cat-weapon'],
+    explosive: ['爆炸物', 'cat-explosive'],
+    upgrade: ['升級', 'cat-upgrade'],
+    drone: ['無人機', 'cat-drone'],
+    utility: ['工具', 'cat-utility'],
+    cart: ['購物車', 'cat-cart'],
+    health: ['醫療', 'cat-health'],
+    vehicle: ['載具', 'cat-vehicle'],
+  };
+  const [label, cls] = map[c] || [c, 'cat-upgrade'];
+  return `<span class="item-category-badge ${cls}">${label}</span>`;
+}
+
+function hl(text, query) {
+  if (!query) return text;
+  const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text.replace(new RegExp(escaped, 'gi'), m => `<span class="hl">${m}</span>`);
+}
+
+function matchSearch(text, q) {
+  return !q || text.toLowerCase().includes(q.toLowerCase());
+}
+
+function renderMonsters() {
+  const grid = document.getElementById('monster-grid');
+  const stats = document.getElementById('monster-stats');
+  const empty = document.getElementById('monster-empty');
+
+  const filtered = monsters.filter(m => {
+    const tierOk = currentTier === 'all' || String(m.tier) === currentTier;
+    const searchOk = matchSearch(m.nameZh + m.nameEn + m.desc + m.tags.join(','), searchQuery);
+    return tierOk && searchOk;
+  });
+
+  // 統計
+  const t1 = monsters.filter(m=>m.tier===1).length;
+  const t2 = monsters.filter(m=>m.tier===2).length;
+  const t3 = monsters.filter(m=>m.tier===3).length;
+  stats.innerHTML = `
+    <div class="stat-box"><div class="stat-num">${monsters.length}</div><div class="stat-lbl">怪物總數</div></div>
+    <div class="stat-box" style="--c:var(--green)"><div class="stat-num" style="color:var(--green)">${t1}</div><div class="stat-lbl">危險等級 1</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:var(--yellow)">${t2}</div><div class="stat-lbl">危險等級 2</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:var(--red-glow)">${t3}</div><div class="stat-lbl">危險等級 3</div></div>
+  `;
+
+  document.getElementById('cnt-monsters').textContent = filtered.length;
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  const colors = { 1: 'var(--green)', 2: 'var(--yellow)', 3: 'var(--red)' };
+
+  grid.innerHTML = filtered.map((m, i) => {
+    const imgUrl = MONSTER_IMG[m.nameEn] || null;
+    const imgHtml = imgUrl
+      ? `<div class="card-img-wrap"><img src="${imgUrl}" alt="${m.nameEn}" loading="lazy" onerror="this.style.display='none';this.parentElement.style.fontSize='3rem';this.parentElement.textContent='${m.emoji}'"></div>`
+      : `<div class="card-img-wrap"><span class="card-emoji-fb">${m.emoji}</span></div>`;
+    return `
+    <div class="monster-card" id="mc-${i}" style="--tier-color:${colors[m.tier]}" onclick="toggleCard('mc-${i}')">
+      ${imgHtml}
+      <div class="card-header">
+        <div class="card-name-block">
+          <div class="card-name-en">${hl(m.nameEn, searchQuery)}</div>
+          <div class="card-name-zh">${hl(m.nameZh, searchQuery)}</div>
+        </div>
+        ${tierLabel(m.tier)}
+      </div>
+      <div class="card-desc">${hl(m.desc, searchQuery)}</div>
+      <div class="card-tags">
+        ${m.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+      </div>
+      <div class="card-detail">
+        <div class="detail-row">
+          <div class="detail-label">行為</div>
+          <div class="detail-val">${m.behavior}</div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">攻擊</div>
+          <div class="detail-val"><span class="tag tag-danger">${m.attack}</span></div>
+        </div>
+        <div class="detail-row">
+          <div class="detail-label">應對</div>
+          <div class="detail-val"><span class="tag tag-tip">${m.howTo}</span></div>
+        </div>
+        <div class="fun-fact">${m.funFact}</div>
+      </div>
+    </div>
+  `;
+  }).join('');
+}
+
+function renderItems() {
+  const grid = document.getElementById('weapon-grid');
+  const stats = document.getElementById('weapon-stats');
+
+  const catCount = {};
+  items.forEach(i => { catCount[i.cat] = (catCount[i.cat]||0)+1; });
+
+  const filtered = items.filter(item =>
+    matchSearch(item.nameZh + item.nameEn + item.desc, searchQuery)
+  );
+
+  document.getElementById('cnt-weapons').textContent = filtered.length;
+
+  const catNames = { weapon:'武器', explosive:'爆炸物', upgrade:'升級', drone:'無人機', utility:'工具', cart:'購物車', health:'醫療', vehicle:'載具' };
+  stats.innerHTML = Object.entries(catCount).map(([c, n]) =>
+    `<div class="stat-box"><div class="stat-num" style="font-size:1.4rem">${n}</div><div class="stat-lbl">${catNames[c]||c}</div></div>`
+  ).join('');
+
+  grid.innerHTML = filtered.map(item => {
+    const imgUrl = ITEM_IMG[item.nameEn] || null;
+    const imgHtml = imgUrl
+      ? `<div class="item-img-wrap"><img src="${imgUrl}" alt="${item.nameEn}" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\\'item-emoji-fb\\'>${item.emoji}</span>'"></div>`
+      : `<div class="item-img-wrap"><span class="item-emoji-fb">${item.emoji}</span></div>`;
+    return `
+    <div class="item-card">
+      ${imgHtml}
+      ${catLabel(item.cat)}
+      <div class="item-name-row">
+        <span class="item-name">${hl(item.nameZh, searchQuery)}</span>
+        <span style="font-size:0.72rem;color:var(--text-dim)">${item.nameEn}</span>
+        <span class="item-price">${item.price}</span>
+      </div>
+      <div class="item-desc">${hl(item.desc, searchQuery)}</div>
+      <div class="item-stats">
+        ${item.stats.map(s => `<div class="stat-pill"><span>${s.k}</span>${s.v}</div>`).join('')}
+      </div>
+    </div>
+  `;
+  }).join('');
+}
+
+function renderValuables() {
+  const grid = document.getElementById('valuable-grid');
+  const stats = document.getElementById('valuable-stats');
+
+  const traps = valuables.filter(v=>v.trap).length;
+  const rare = valuables.filter(v=>parseInt(v.price.replace(/[$,]/g,''))>=18000).length;
+
+  const filtered = valuables.filter(v =>
+    matchSearch(v.nameZh + v.nameEn + v.desc + (v.trap||''), searchQuery)
+  );
+
+  document.getElementById('cnt-valuables').textContent = filtered.length;
+
+  stats.innerHTML = `
+    <div class="stat-box"><div class="stat-num">${valuables.length}</div><div class="stat-lbl">寶物總數</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:var(--orange)">${traps}</div><div class="stat-lbl">有陷阱效果</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:var(--yellow)">${rare}</div><div class="stat-lbl">超高價值</div></div>
+  `;
+
+  grid.innerHTML = filtered.map(v => {
+    const imgUrl = VALUABLE_IMG[v.nameEn] || null;
+    const imgHtml = imgUrl
+      ? `<div class="val-img-wrap"><img src="${imgUrl}" alt="${v.nameEn}" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\\'val-emoji-fb\\'>${v.emoji}</span>'"></div>`
+      : `<div class="val-img-wrap"><span class="val-emoji-fb">${v.emoji}</span></div>`;
+    return `
+    <div class="valuable-card">
+      ${imgHtml}
+      <div class="val-header">
+        <div>
+          <div class="val-name">${hl(v.nameZh, searchQuery)}</div>
+          <div style="font-size:0.72rem;color:var(--text-dim)">${v.nameEn}</div>
+        </div>
+        <div class="val-price">${v.price}</div>
+      </div>
+      <div class="val-desc">${hl(v.desc, searchQuery)}</div>
+      ${v.trap ? `<div class="val-trap">陷阱效果：${v.trap}</div>` : ''}
+    </div>
+  `;
+  }).join('');
+}
+
+// ===================== 互動 =====================
+
+function showSection(name) {
+  currentSection = name;
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(`sec-${name}`).classList.add('visible');
+  document.getElementById(`btn-${name}`).classList.add('active');
+  document.getElementById('tierFilterSection').style.display = name === 'monsters' ? '' : 'none';
+  renderAll();
+}
+
+function setTierFilter(tier) {
+  currentTier = tier;
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active-chip'));
+  document.querySelector(`.filter-chip[data-tier="${tier}"]`).classList.add('active-chip');
+  renderMonsters();
+}
+
+function toggleCard(id) {
+  const card = document.getElementById(id);
+  card.classList.toggle('expanded');
+}
+
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchQuery = e.target.value.trim();
+  renderAll();
+});
+
+function renderAll() {
+  if (currentSection === 'monsters') renderMonsters();
+  else if (currentSection === 'weapons') renderItems();
+  else if (currentSection === 'valuables') renderValuables();
+}
+
+// 初始化
+renderMonsters();
+renderItems();
+renderValuables();
+document.getElementById('tierFilterSection').style.display = '';
+</script>
+</body>
+</html>
